@@ -1,0 +1,241 @@
+<div class="nlp-search-container">
+  <!-- Hero Header -->
+  <div class="hero-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="icon-wrapper">
+          <i class="fas fa-brain"></i>
+        </div>
+        <div>
+          <h1 class="page-title">Recherche Intelligente</h1>
+          <p class="page-subtitle">Posez vos questions en langage naturel</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-4">
+    <!-- Search Box -->
+    <div class="search-box">
+      <div class="search-input-wrapper">
+        <i class="fas fa-search search-icon"></i>
+        <input
+          type="text"
+          class="search-input"
+          [(ngModel)]="query"
+          (keyup.enter)="submitQuery()"
+          placeholder="Ex: donne moi les événements premium, liste les certifications formelles..."
+          [disabled]="loading">
+        <button 
+          *ngIf="query" 
+          class="btn-clear-input" 
+          (click)="query=''"
+          [disabled]="loading">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <button 
+        class="btn-submit" 
+        (click)="submitQuery()"
+        [disabled]="loading || !query.trim()">
+        <i class="fas fa-paper-plane"></i>
+        <span>Rechercher</span>
+      </button>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div *ngIf="loading" class="loading-container">
+      <div class="spinner-custom">
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring"></div>
+      </div>
+      <p class="loading-text">Traitement de votre requête...</p>
+    </div>
+
+    <!-- Error Alert -->
+    <div *ngIf="error && !loading" class="alert-custom alert-danger">
+      <i class="fas fa-exclamation-triangle"></i>
+      <span>{{ error }}</span>
+      <button class="btn-close-alert" (click)="error=null">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Examples Section -->
+    <div *ngIf="showExamples && !loading && results.length === 0" class="examples-section">
+      <h3 class="examples-title">
+        <i class="fas fa-lightbulb"></i>
+        Exemples de requêtes
+      </h3>
+      
+      <div class="examples-grid">
+        <!-- Event Examples -->
+        <div class="example-category">
+          <h4 class="category-title">
+            <i class="fas fa-calendar-alt"></i>
+            Événements
+          </h4>
+          <div class="example-chips">
+            <button 
+              *ngFor="let example of eventExamples.slice(0, 6)" 
+              class="example-chip"
+              (click)="useExample(example)">
+              <i class="fas fa-quote-left"></i>
+              {{ example }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Certification Examples -->
+        <div class="example-category">
+          <h4 class="category-title">
+            <i class="fas fa-certificate"></i>
+            Certifications
+          </h4>
+          <div class="example-chips">
+            <button 
+              *ngFor="let example of certificationExamples.slice(0, 6)" 
+              class="example-chip"
+              (click)="useExample(example)">
+              <i class="fas fa-quote-left"></i>
+              {{ example }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Section -->
+    <div *ngIf="!loading && results.length > 0" class="results-section">
+      <!-- Results Header -->
+      <div class="results-header">
+        <div class="results-info">
+          <i [class]="resultType === 'events' ? 'fas fa-calendar-alt' : 'fas fa-certificate'"></i>
+          <h3>{{ resultCount }} résultat(s) trouvé(s)</h3>
+        </div>
+        <div class="results-actions">
+          <button class="btn-action btn-sparql" (click)="toggleSparql()">
+            <i class="fas fa-code"></i>
+            <span>{{ showSparql ? 'Masquer' : 'Voir' }} SPARQL</span>
+          </button>
+          <button class="btn-action btn-clear" (click)="clearResults()">
+            <i class="fas fa-redo"></i>
+            <span>Nouvelle recherche</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- SPARQL Query Display -->
+      <div *ngIf="showSparql" class="sparql-display">
+        <h4 class="sparql-title">
+          <i class="fas fa-code"></i>
+          Requête SPARQL générée
+        </h4>
+        <pre class="sparql-code">{{ sparqlQuery }}</pre>
+      </div>
+
+      <!-- Events Results -->
+      <div *ngIf="resultType === 'events'" class="events-grid">
+        <div class="event-card" *ngFor="let event of results">
+          <div class="event-card-header" [class.premium]="event.eventType === 'Premium'">
+            <span class="event-type-badge" [class.premium]="event.eventType === 'Premium'">
+              <i [class]="event.eventType === 'Premium' ? 'fas fa-crown' : 'fas fa-users'"></i>
+              {{ event.eventType }}
+            </span>
+            <span class="event-category">
+              <i class="fas fa-tag"></i>
+              {{ event.eventCategory }}
+            </span>
+          </div>
+
+          <div class="event-card-body">
+            <h3 class="event-title">{{ event.eventTitle }}</h3>
+            <p class="event-description">{{ event.eventDescription }}</p>
+
+            <div class="event-meta">
+              <div class="meta-item">
+                <i class="fas fa-calendar-day"></i>
+                <span>{{ formatDate(event.eventDate) }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="event-card-footer">
+            <a [routerLink]="['/events/view', event.uri]" class="btn-action btn-view">
+              <i class="fas fa-eye"></i>
+              <span>Voir</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Certifications Results -->
+      <div *ngIf="resultType === 'certifications'" class="certifications-grid">
+        <div class="cert-card" *ngFor="let cert of results" [class.expired]="isExpired(cert.expirationDate)">
+          <div class="cert-card-header" [class.formal]="cert.certificationType === 'FormalCertification'">
+            <span class="cert-type-badge" [class.formal]="cert.certificationType === 'FormalCertification'">
+              <i [class]="cert.certificationType === 'FormalCertification' ? 'fas fa-award' : 'fas fa-certificate'"></i>
+              {{ getCertificationTypeLabel(cert.certificationType) }}
+            </span>
+            <span *ngIf="isExpired(cert.expirationDate)" class="expired-badge">
+              <i class="fas fa-exclamation-triangle"></i>
+              Expirée
+            </span>
+          </div>
+
+          <div class="cert-card-body">
+            <h3 class="cert-title">{{ cert.certificationName }}</h3>
+
+            <div class="cert-meta">
+              <div class="meta-item">
+                <i class="fas fa-building"></i>
+                <div>
+                  <span class="meta-label">Émetteur</span>
+                  <span class="meta-value">{{ cert.issuedBy }}</span>
+                </div>
+              </div>
+
+              <div class="meta-item">
+                <i class="fas fa-calendar-check"></i>
+                <div>
+                  <span class="meta-label">Date d'émission</span>
+                  <span class="meta-value">{{ formatDate(cert.issueDate) }}</span>
+                </div>
+              </div>
+
+              <div class="meta-item" [class.expired-meta]="isExpired(cert.expirationDate)">
+                <i class="fas fa-calendar-times"></i>
+                <div>
+                  <span class="meta-label">Date d'expiration</span>
+                  <span class="meta-value">{{ formatDate(cert.expirationDate) }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cert-card-footer">
+            <a [routerLink]="['/certifications/view', cert.uri]" class="btn-action btn-view">
+              <i class="fas fa-eye"></i>
+              <span>Voir</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty Results -->
+    <div *ngIf="!loading && !showExamples && results.length === 0 && !error" class="empty-state">
+      <div class="empty-icon">
+        <i class="fas fa-search"></i>
+      </div>
+      <h3 class="empty-title">Aucun résultat trouvé</h3>
+      <p class="empty-text">Essayez de reformuler votre requête ou utilisez un des exemples ci-dessus</p>
+      <button class="btn-new-search" (click)="clearResults()">
+        <i class="fas fa-redo"></i>
+        Nouvelle recherche
+      </button>
+    </div>
+  </div>
+</div>
+

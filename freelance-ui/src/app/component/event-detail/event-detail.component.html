@@ -1,0 +1,120 @@
+<div class="event-detail-container">
+  <!-- Back Button -->
+  <div class="back-button-section">
+    <button (click)="goBack()" class="btn-back">
+      <i class="fas fa-arrow-left"></i>
+      <span>Retour aux événements</span>
+    </button>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner-custom">
+      <div class="spinner-ring"></div>
+      <div class="spinner-ring"></div>
+      <div class="spinner-ring"></div>
+    </div>
+    <p class="loading-text">Chargement de l'événement...</p>
+  </div>
+
+  <!-- Error Alert -->
+  <div *ngIf="error" class="alert-custom alert-danger">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    <span>{{ error }}</span>
+  </div>
+
+  <!-- Event Detail Card -->
+  <div *ngIf="!loading && event" class="detail-card">
+    <div class="detail-header">
+      <div class="header-content">
+        <div class="icon-wrapper">
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+        <div>
+          <h1 class="detail-title">{{ event.eventTitle }}</h1>
+          <div class="badges">
+            <span class="badge badge-type" [class.premium]="event.eventType === 'Premium'">
+              <i [class]="event.eventType === 'Premium' ? 'fas fa-crown' : 'fas fa-users'"></i>
+              {{ event.eventType }}
+            </span>
+            <span class="badge badge-category">
+              <i class="fas fa-tag"></i>
+              {{ event.eventCategory }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button (click)="editEvent()" class="btn-action btn-edit">
+          <i class="fas fa-edit"></i>
+          <span>Modifier</span>
+        </button>
+        <button (click)="deleteEvent()" class="btn-action btn-delete">
+          <i class="fas fa-trash-alt"></i>
+          <span>Supprimer</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="detail-body">
+      <!-- Description Section -->
+      <div class="info-section">
+        <h3 class="section-title">
+          <i class="fas fa-align-left"></i>
+          Description
+        </h3>
+        <p class="section-content">{{ event.eventDescription || 'Aucune description disponible' }}</p>
+      </div>
+
+      <!-- Details Section -->
+      <div class="info-section">
+        <h3 class="section-title">
+          <i class="fas fa-info-circle"></i>
+          Détails de l'événement
+        </h3>
+        <div class="details-grid">
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fas fa-calendar-day"></i>
+            </div>
+            <div class="detail-content">
+              <span class="detail-label">Date de l'événement</span>
+              <span class="detail-value">{{ formatDate(event.eventDate) }}</span>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fas fa-layer-group"></i>
+            </div>
+            <div class="detail-content">
+              <span class="detail-label">Catégorie</span>
+              <span class="detail-value">{{ event.eventCategory }}</span>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i [class]="event.eventType === 'Premium' ? 'fas fa-crown' : 'fas fa-users'"></i>
+            </div>
+            <div class="detail-content">
+              <span class="detail-label">Type d'événement</span>
+              <span class="detail-value">{{ event.eventType }}</span>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fas fa-link"></i>
+            </div>
+            <div class="detail-content">
+              <span class="detail-label">URI</span>
+              <span class="detail-value uri-text">{{ event.uri }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

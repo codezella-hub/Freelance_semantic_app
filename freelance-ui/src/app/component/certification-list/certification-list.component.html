@@ -1,0 +1,141 @@
+<div class="certifications-container">
+  <!-- Hero Header -->
+  <div class="hero-header">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <div class="header-content">
+            <div class="icon-wrapper">
+              <i class="fas fa-certificate"></i>
+            </div>
+            <div>
+              <h1 class="page-title">Certifications</h1>
+              <p class="page-subtitle">Gérez vos certifications professionnelles et académiques</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 text-end">
+          <a routerLink="/certifications/new" class="btn btn-create">
+            <i class="fas fa-plus-circle me-2"></i>Nouvelle Certification
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-4">
+    <!-- Search Bar -->
+    <div class="search-section">
+      <div class="search-wrapper">
+        <i class="fas fa-search search-icon"></i>
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Rechercher une certification par nom, émetteur..."
+          [(ngModel)]="searchTerm"
+          (keyup.enter)="searchCertifications()">
+        <button class="btn-search" type="button" (click)="searchCertifications()">
+          Rechercher
+        </button>
+        <button *ngIf="searchTerm" class="btn-clear" type="button" (click)="searchTerm=''; loadCertifications()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Error Alert -->
+    <div *ngIf="error" class="alert-custom alert-danger">
+      <i class="fas fa-exclamation-triangle me-2"></i>
+      <span>{{ error }}</span>
+      <button type="button" class="btn-close-custom" (click)="error=null">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div *ngIf="loading" class="loading-container">
+      <div class="spinner-custom">
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring"></div>
+      </div>
+      <p class="loading-text">Chargement des certifications...</p>
+    </div>
+
+    <!-- Certifications Grid -->
+    <div *ngIf="!loading && filteredCertifications.length > 0" class="certifications-grid">
+      <div class="cert-card" *ngFor="let cert of filteredCertifications" [class.expired]="isExpired(cert.expirationDate)">
+        <div class="cert-card-header" [class.formal]="cert.certificationType === 'FormalCertification'">
+          <span class="cert-type-badge" [class.formal]="cert.certificationType === 'FormalCertification'">
+            <i [class]="cert.certificationType === 'FormalCertification' ? 'fas fa-award' : 'fas fa-certificate'"></i>
+            {{ getCertificationTypeLabel(cert.certificationType) }}
+          </span>
+          <span *ngIf="isExpired(cert.expirationDate)" class="expired-badge">
+            <i class="fas fa-exclamation-triangle"></i>
+            Expirée
+          </span>
+        </div>
+
+        <div class="cert-card-body">
+          <h3 class="cert-title">{{ cert.certificationName || 'Sans nom' }}</h3>
+
+          <div class="cert-meta">
+            <div class="meta-item">
+              <i class="fas fa-building"></i>
+              <div>
+                <span class="meta-label">Émetteur</span>
+                <span class="meta-value">{{ cert.issuedBy || 'N/A' }}</span>
+              </div>
+            </div>
+
+            <div class="meta-item">
+              <i class="fas fa-calendar-check"></i>
+              <div>
+                <span class="meta-label">Date d'émission</span>
+                <span class="meta-value">{{ formatDate(cert.issueDate) }}</span>
+              </div>
+            </div>
+
+            <div class="meta-item" [class.expired-meta]="isExpired(cert.expirationDate)">
+              <i class="fas fa-calendar-times"></i>
+              <div>
+                <span class="meta-label">Date d'expiration</span>
+                <span class="meta-value">{{ formatDate(cert.expirationDate) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cert-card-footer">
+          <a [routerLink]="['/certifications/view', cert.uri]" class="btn-action btn-view">
+            <i class="fas fa-eye"></i>
+            <span>Voir</span>
+          </a>
+          <a [routerLink]="['/certifications/edit', cert.uri]" class="btn-action btn-edit">
+            <i class="fas fa-edit"></i>
+            <span>Modifier</span>
+          </a>
+          <button (click)="deleteCertification(cert.uri!)" class="btn-action btn-delete">
+            <i class="fas fa-trash-alt"></i>
+            <span>Supprimer</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && filteredCertifications.length === 0" class="empty-state">
+      <div class="empty-icon">
+        <i class="fas fa-certificate"></i>
+      </div>
+      <h3 class="empty-title">Aucune certification trouvée</h3>
+      <p class="empty-text">
+        {{ searchTerm ? 'Aucune certification ne correspond à votre recherche' : 'Commencez par créer votre première certification' }}
+      </p>
+      <a routerLink="/certifications/new" class="btn btn-create">
+        <i class="fas fa-plus-circle me-2"></i>Créer une certification
+      </a>
+    </div>
+  </div>
+</div>
+
