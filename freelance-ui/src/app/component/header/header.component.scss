@@ -1,0 +1,102 @@
+// Dropdown styles
+.dropdown {
+  position: relative;
+  cursor: pointer;
+
+  .dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: #667eea;
+    }
+
+    .arrow {
+      font-size: 10px;
+      transition: transform 0.3s ease;
+      display: inline-block;
+
+      &.open {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    min-width: 250px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    padding: 8px 0;
+    margin-top: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+
+    &.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    li {
+      list-style: none;
+      margin: 0;
+
+      a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 20px;
+        color: #333;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 15px;
+        font-weight: 500;
+
+        &:hover {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          padding-left: 25px;
+        }
+      }
+
+      &:first-child a {
+        border-radius: 12px 12px 0 0;
+      }
+
+      &:last-child a {
+        border-radius: 0 0 12px 12px;
+      }
+    }
+  }
+}
+
+// Add arrow indicator before dropdown opens
+.dropdown::before {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 999;
+}
+
+.dropdown:hover::before {
+  opacity: 1;
+}

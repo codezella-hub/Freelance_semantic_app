@@ -1,0 +1,16 @@
+PREFIX onto: <http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?event ?title ?cert ?certName WHERE {
+  {
+    ?event rdf:type onto:Event .
+    ?event onto:EventTitle ?title .
+  }
+  UNION
+  {
+    ?cert rdf:type onto:Certification .
+    ?cert onto:certificationName ?certName .
+  }
+}
+LIMIT 10
+
