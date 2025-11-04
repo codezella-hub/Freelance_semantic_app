@@ -1,0 +1,172 @@
+<div class="form-container">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <!-- Back Button -->
+        <a routerLink="/events" class="btn-back">
+          <i class="fas fa-arrow-left me-2"></i>Retour aux événements
+        </a>
+
+        <div class="form-card">
+          <div class="form-header">
+            <div class="header-icon">
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div>
+              <h2 class="form-title">{{ isEditMode ? 'Modifier l\'Événement' : 'Nouvel Événement' }}</h2>
+              <p class="form-subtitle">{{ isEditMode ? 'Mettez à jour les informations de votre événement' : 'Créez un nouvel événement professionnel' }}</p>
+            </div>
+          </div>
+
+          <div class="form-body">
+            <!-- Success Alert -->
+            <div *ngIf="success" class="alert-custom alert-success">
+              <i class="fas fa-check-circle"></i>
+              <span>{{ success }}</span>
+              <button type="button" class="btn-close-alert" (click)="success=null">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+
+            <!-- Error Alert -->
+            <div *ngIf="error" class="alert-custom alert-error">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>{{ error }}</span>
+              <button type="button" class="btn-close-alert" (click)="error=null">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div *ngIf="loading" class="loading-overlay">
+              <div class="spinner-custom">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+              </div>
+              <p class="loading-text">Traitement en cours...</p>
+            </div>
+
+            <!-- Form -->
+            <form *ngIf="!loading" (ngSubmit)="onSubmit()" #eventForm="ngForm" class="modern-form">
+              <!-- Event Title -->
+              <div class="form-group">
+                <label for="eventTitle" class="form-label">
+                  <i class="fas fa-heading"></i>
+                  <span>Titre de l'événement</span>
+                  <span class="required">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-input"
+                  id="eventTitle"
+                  name="eventTitle"
+                  [(ngModel)]="event.eventTitle"
+                  required
+                  placeholder="Ex: Conférence sur l'Intelligence Artificielle">
+              </div>
+
+              <!-- Event Description -->
+              <div class="form-group">
+                <label for="eventDescription" class="form-label">
+                  <i class="fas fa-align-left"></i>
+                  <span>Description</span>
+                  <span class="required">*</span>
+                </label>
+                <textarea
+                  class="form-input form-textarea"
+                  id="eventDescription"
+                  name="eventDescription"
+                  [(ngModel)]="event.eventDescription"
+                  required
+                  rows="4"
+                  placeholder="Décrivez votre événement en détail..."></textarea>
+              </div>
+
+              <div class="form-row">
+                <!-- Event Category -->
+                <div class="form-group">
+                  <label for="eventCategory" class="form-label">
+                    <i class="fas fa-tag"></i>
+                    <span>Catégorie</span>
+                    <span class="required">*</span>
+                  </label>
+                  <select
+                    class="form-input form-select"
+                    id="eventCategory"
+                    name="eventCategory"
+                    [(ngModel)]="event.eventCategory"
+                    required>
+                    <option value="">Sélectionnez une catégorie</option>
+                    <option *ngFor="let category of categories" [value]="category">
+                      {{ category }}
+                    </option>
+                  </select>
+                </div>
+
+                <!-- Event Type -->
+                <div class="form-group">
+                  <label for="eventType" class="form-label">
+                    <i class="fas fa-star"></i>
+                    <span>Type d'événement</span>
+                    <span class="required">*</span>
+                  </label>
+                  <select
+                    class="form-input form-select"
+                    id="eventType"
+                    name="eventType"
+                    [(ngModel)]="event.eventType"
+                    required>
+                    <option *ngFor="let type of eventTypes" [value]="type">
+                      {{ type }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Event Date -->
+              <div class="form-group">
+                <label for="eventDate" class="form-label">
+                  <i class="fas fa-calendar"></i>
+                  <span>Date et heure</span>
+                  <span class="required">*</span>
+                </label>
+                <input
+                  type="datetime-local"
+                  class="form-input"
+                  id="eventDate"
+                  name="eventDate"
+                  [(ngModel)]="event.eventDate"
+                  required>
+                <div class="form-hint">
+                  <i class="fas fa-info-circle"></i>
+                  <span><strong>Public:</strong> Accessible à tous | <strong>Premium:</strong> Réservé aux membres premium</span>
+                </div>
+              </div>
+
+              <!-- Form Actions -->
+              <div class="form-actions">
+                <button
+                  type="button"
+                  class="btn-secondary-action"
+                  (click)="cancel()"
+                  [disabled]="loading">
+                  <i class="fas fa-times"></i>
+                  <span>Annuler</span>
+                </button>
+                <button
+                  type="submit"
+                  class="btn-primary-action"
+                  [disabled]="!eventForm.form.valid || loading">
+                  <i class="fas fa-save"></i>
+                  <span>{{ isEditMode ? 'Mettre à jour' : 'Créer l\'événement' }}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

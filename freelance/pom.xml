@@ -70,6 +70,11 @@
 			<artifactId>jena-arq</artifactId>
 			<version>4.8.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.jena</groupId>
+			<artifactId>jena-rdfconnection</artifactId>
+			<version>4.8.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

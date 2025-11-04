@@ -2,12 +2,22 @@
 <header>
   <div class="container">
     <nav class="navbar">
-      <a href="#" class="logo">FreelancePro</a>
+      <a routerLink="/" class="logo">FreelancePro</a>
       <ul class="nav-links">
+        <li><a routerLink="/">Accueil</a></li>
+        <li class="dropdown" (mouseenter)="isDropdownOpen = true" (mouseleave)="isDropdownOpen = false">
+          <a class="dropdown-toggle">
+            📚 Ressources
+            <span class="arrow" [class.open]="isDropdownOpen">▼</span>
+          </a>
+          <ul class="dropdown-menu" [class.show]="isDropdownOpen">
+            <li><a routerLink="/search" (click)="closeDropdown()">🔍 Recherche Intelligente</a></li>
+            <li><a routerLink="/events" (click)="closeDropdown()">📅 Événements</a></li>
+            <li><a routerLink="/certifications" (click)="closeDropdown()">🎓 Certifications</a></li>
+          </ul>
+        </li>
         <li><a href="#">Trouver des freelances</a></li>
         <li><a href="#">Devenir freelance</a></li>
-        <li><a href="#">Comment ça marche</a></li>
-        <li><a href="#">À propos</a></li>
       </ul>
       <div class="auth-buttons">
         <a href="#" class="btn btn-secondary">Connexion</a>

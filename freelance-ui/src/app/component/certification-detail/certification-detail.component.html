@@ -1,0 +1,141 @@
+<div class="certification-detail-container">
+  <!-- Back Button -->
+  <div class="back-button-section">
+    <button (click)="goBack()" class="btn-back">
+      <i class="fas fa-arrow-left"></i>
+      <span>Retour aux certifications</span>
+    </button>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner-custom">
+      <div class="spinner-ring"></div>
+      <div class="spinner-ring"></div>
+      <div class="spinner-ring"></div>
+    </div>
+    <p class="loading-text">Chargement de la certification...</p>
+  </div>
+
+  <!-- Error Alert -->
+  <div *ngIf="error" class="alert-custom alert-danger">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    <span>{{ error }}</span>
+  </div>
+
+  <!-- Certification Detail Card -->
+  <div *ngIf="!loading && certification" class="detail-card" [class.expired]="isExpired(certification.expirationDate)">
+    <div class="detail-header">
+      <div class="header-content">
+        <div class="icon-wrapper">
+          <i class="fas fa-certificate"></i>
+        </div>
+        <div>
+          <h1 class="detail-title">{{ certification.certificationName }}</h1>
+          <div class="badges">
+            <span class="badge badge-type" [class.formal]="certification.certificationType === 'FormalCertification'">
+              <i [class]="certification.certificationType === 'FormalCertification' ? 'fas fa-award' : 'fas fa-certificate'"></i>
+              {{ getCertificationTypeLabel(certification.certificationType) }}
+            </span>
+            <span *ngIf="isExpired(certification.expirationDate)" class="badge badge-expired">
+              <i class="fas fa-exclamation-triangle"></i>
+              Expirée
+            </span>
+            <span *ngIf="!isExpired(certification.expirationDate)" class="badge badge-valid">
+              <i class="fas fa-check-circle"></i>
+              Valide
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button (click)="downloadPDF()" class="btn-action btn-pdf">
+          <i class="fas fa-file-pdf"></i>
+          <span>Télécharger PDF</span>
+        </button>
+        <button (click)="editCertification()" class="btn-action btn-edit">
+          <i class="fas fa-edit"></i>
+          <span>Modifier</span>
+        </button>
+        <button (click)="deleteCertification()" class="btn-action btn-delete">
+          <i class="fas fa-trash-alt"></i>
+          <span>Supprimer</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="detail-body">
+      <!-- Issuer Section -->
+      <div class="info-section">
+        <h3 class="section-title">
+          <i class="fas fa-building"></i>
+          Émetteur
+        </h3>
+        <p class="section-content">{{ certification.issuedBy || 'Non spécifié' }}</p>
+      </div>
+
+      <!-- Dates Section -->
+      <div class="info-section">
+        <h3 class="section-title">
+          <i class="fas fa-calendar-alt"></i>
+          Dates importantes
+        </h3>
+        <div class="details-grid">
+          <div class="detail-item">
+            <div class="detail-icon icon-issue">
+              <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="detail-content">
+              <span class="detail-label">Date d'émission</span>
+              <span class="detail-value">{{ formatDate(certification.issueDate) }}</span>
+            </div>
+          </div>
+
+          <div class="detail-item" [class.expired-item]="isExpired(certification.expirationDate)">
+            <div class="detail-icon" [class.icon-expired]="isExpired(certification.expirationDate)">
+              <i class="fas fa-calendar-times"></i>
+            </div>
+            <div class="detail-content">
+              <span class="detail-label">Date d'expiration</span>
+              <span class="detail-value">{{ formatDate(certification.expirationDate) }}</span>
+              <span *ngIf="isExpired(certification.expirationDate)" class="expired-text">
+                <i class="fas fa-exclamation-circle"></i>
+                Cette certification a expiré
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Technical Details Section -->
+      <div class="info-section">
+        <h3 class="section-title">
+          <i class="fas fa-info-circle"></i>
+          Détails techniques
+        </h3>
+        <div class="details-grid">
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fas fa-tag"></i>
+            </div>
+            <div class="detail-content">
+              <span class="detail-label">Type de certification</span>
+              <span class="detail-value">{{ getCertificationTypeLabel(certification.certificationType) }}</span>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fas fa-link"></i>
+            </div>
+            <div class="detail-content">
+              <span class="detail-label">URI</span>
+              <span class="detail-value uri-text">{{ certification.uri }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

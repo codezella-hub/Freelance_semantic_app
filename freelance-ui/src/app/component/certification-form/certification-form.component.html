@@ -1,0 +1,178 @@
+<div class="form-container">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <!-- Back Button -->
+        <a routerLink="/certifications" class="btn-back">
+          <i class="fas fa-arrow-left me-2"></i>Retour aux certifications
+        </a>
+
+        <div class="form-card">
+          <div class="form-header">
+            <div class="header-icon">
+              <i class="fas fa-certificate"></i>
+            </div>
+            <div>
+              <h2 class="form-title">{{ isEditMode ? 'Modifier la Certification' : 'Nouvelle Certification' }}</h2>
+              <p class="form-subtitle">{{ isEditMode ? 'Mettez à jour les informations de votre certification' : 'Ajoutez une nouvelle certification professionnelle' }}</p>
+            </div>
+          </div>
+
+          <div class="form-body">
+            <!-- Success Alert -->
+            <div *ngIf="success" class="alert-custom alert-success">
+              <i class="fas fa-check-circle"></i>
+              <span>{{ success }}</span>
+              <button type="button" class="btn-close-alert" (click)="success=null">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+
+            <!-- Error Alert -->
+            <div *ngIf="error" class="alert-custom alert-error">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>{{ error }}</span>
+              <button type="button" class="btn-close-alert" (click)="error=null">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div *ngIf="loading" class="loading-overlay">
+              <div class="spinner-custom">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+              </div>
+              <p class="loading-text">Traitement en cours...</p>
+            </div>
+
+            <!-- Form -->
+            <form *ngIf="!loading" (ngSubmit)="onSubmit()" #certForm="ngForm" class="modern-form">
+              <!-- Certification Name - Select from Events -->
+              <div class="form-group">
+                <label for="certificationName" class="form-label">
+                  <i class="fas fa-award"></i>
+                  <span>Nom de la certification (depuis événement)</span>
+                  <span class="required">*</span>
+                </label>
+                <select
+                  class="form-input form-select"
+                  id="certificationName"
+                  name="certificationName"
+                  [(ngModel)]="certification.certificationName"
+                  [disabled]="loadingEvents"
+                  required>
+                  <option value="" disabled>
+                    {{ loadingEvents ? 'Chargement des événements...' : 'Sélectionnez un événement' }}
+                  </option>
+                  <option *ngFor="let event of events" [value]="event.eventTitle">
+                    {{ event.eventTitle }}
+                  </option>
+                </select>
+                <div class="form-hint">
+                  <i class="fas fa-info-circle"></i>
+                  <span>Le nom de la certification sera basé sur le titre de l'événement sélectionné</span>
+                </div>
+              </div>
+
+              <!-- Issued By -->
+              <div class="form-group">
+                <label for="issuedBy" class="form-label">
+                  <i class="fas fa-building"></i>
+                  <span>Émetteur</span>
+                  <span class="required">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-input"
+                  id="issuedBy"
+                  name="issuedBy"
+                  [(ngModel)]="certification.issuedBy"
+                  required
+                  placeholder="Ex: Amazon Web Services, Microsoft, Google">
+              </div>
+
+              <div class="form-row">
+                <!-- Issue Date -->
+                <div class="form-group">
+                  <label for="issueDate" class="form-label">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Date d'émission</span>
+                    <span class="required">*</span>
+                  </label>
+                  <input
+                    type="date"
+                    class="form-input"
+                    id="issueDate"
+                    name="issueDate"
+                    [(ngModel)]="certification.issueDate"
+                    required>
+                </div>
+
+                <!-- Expiration Date -->
+                <div class="form-group">
+                  <label for="expirationDate" class="form-label">
+                    <i class="fas fa-calendar-times"></i>
+                    <span>Date d'expiration</span>
+                    <span class="required">*</span>
+                  </label>
+                  <input
+                    type="date"
+                    class="form-input"
+                    id="expirationDate"
+                    name="expirationDate"
+                    [(ngModel)]="certification.expirationDate"
+                    required>
+                </div>
+              </div>
+
+              <!-- Certification Type -->
+              <div class="form-group">
+                <label for="certificationType" class="form-label">
+                  <i class="fas fa-tag"></i>
+                  <span>Type de certification</span>
+                  <span class="required">*</span>
+                </label>
+                <select
+                  class="form-input form-select"
+                  id="certificationType"
+                  name="certificationType"
+                  [(ngModel)]="certification.certificationType"
+                  required>
+                  <option *ngFor="let type of certificationTypes" [value]="type.value">
+                    {{ type.label }}
+                  </option>
+                </select>
+                <div class="form-hint">
+                  <i class="fas fa-info-circle"></i>
+                  <span><strong>Formelle:</strong> Certification officielle reconnue | <strong>Informelle:</strong> Certification non officielle</span>
+                </div>
+              </div>
+
+              <!-- Form Actions -->
+              <div class="form-actions">
+                <button
+                  type="button"
+                  class="btn-secondary-action"
+                  (click)="cancel()"
+                  [disabled]="loading">
+                  <i class="fas fa-times"></i>
+                  <span>Annuler</span>
+                </button>
+                <button
+                  type="submit"
+                  class="btn-primary-action"
+                  [disabled]="!certForm.form.valid || loading">
+                  <i class="fas fa-save"></i>
+                  <span>{{ isEditMode ? 'Mettre à jour' : 'Créer la certification' }}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
