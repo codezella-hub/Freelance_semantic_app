@@ -1,0 +1,99 @@
+<section class="employer-section">
+  <h2 class="page-title">🏢 Gestion des Employeurs </h2>
+
+  <div class="actions">
+    <button class="btn nav" type="button" routerLink="/employers/potential">
+      🧠 Voir les Employeurs par Potentiel
+    </button>
+
+    <button class="btn nav" type="button" routerLink="/employability/stats">
+      📈 Voir les Statistiques d’Employabilité
+    </button>
+  </div>
+
+
+
+  <!-- ✅ Barre de contrôle : tri + filtre -->
+  <div class="controls">
+    <div class="btn-group">
+      <button class="btn" [class.active]="mode === 'all'" (click)="loadAll(); mode='all'">
+        📋 Tous
+      </button>
+      <button class="btn" [class.active]="mode === 'sorted'" (click)="loadSorted(); mode='sorted'">
+        🏆 Trier par Employabilité
+      </button>
+    </div>
+
+    <div class="filter">
+      <label>Score minimum :</label>
+      <input type="number" [(ngModel)]="minScore" min="0" max="100" step="5">
+      <button class="btn filter" (click)="loadByScore(); mode='filter'">
+        🔍 Filtrer
+      </button>
+    </div>
+  </div>
+
+  <!-- 🔄 Indicateur de chargement -->
+  <div *ngIf="loading" class="loader">
+    <div class="spinner"></div>
+    <p>Chargement des données...</p>
+  </div>
+
+  <!-- ⚠️ Message si aucun employeur trouvé -->
+  <div *ngIf="!loading && data.length === 0" class="empty">
+    <p>Aucun employeur trouvé.</p>
+  </div>
+
+  <!-- 🧱 Grille des employeurs -->
+  <div class="employers-grid" *ngIf="!loading && data.length > 0">
+    <div class="employer-card" *ngFor="let e of data">
+      <div class="card-header">
+        <h3>{{ e.companyName || 'Nom non spécifié' }}</h3>
+        <span class="badge"
+          [class.company]="e.type === 'Company'"
+          [class.individual]="e.type === 'Individual'">
+          {{ e.type || 'Employeur' }}
+        </span>
+      </div>
+
+      <div class="card-body">
+        <p><strong>📧</strong> {{ e.email || '—' }}</p>
+        <p><strong>📞</strong> {{ e.phoneNumber || '—' }}</p>
+        <p><strong>💼 Score:</strong>
+          <span
+            [class.high]="(e.employabilityScore || 0) > 80"
+            [class.medium]="(e.employabilityScore || 0) >= 60 && (e.employabilityScore || 0) <= 80"
+            [class.low]="(e.employabilityScore || 0) < 60">
+            {{ e.employabilityScore != null ? e.employabilityScore.toFixed(1) : '—' }}
+          </span>
+        </p>
+      </div>
+
+      <div class="card-footer">
+      <div class="menu-container" (click)="toggleMenu(e.id)">
+        ⋮
+        <div class="dropdown" *ngIf="menuOpen === e.id">
+          <button (click)="edit(e.id)"> 🖊️ Modifier</button>
+          <button (click)="askDelete(e.id)">❌ Supprimer</button>
+
+        </div>
+      </div>
+    </div>
+
+    </div>
+  </div>
+  <!-- === MODALE DE CONFIRMATION === -->
+<div class="modal-backdrop" *ngIf="showConfirmPopup">
+  <div class="modal-box">
+    <h3>⚠️ Confirmation</h3>
+    <p>Voulez-vous vraiment supprimer cet employeur ?</p>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="cancelDelete()">Annuler</button>
+      <button class="btn-confirm" (click)="confirmDelete()">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+</section>
+

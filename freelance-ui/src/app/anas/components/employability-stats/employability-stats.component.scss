@@ -1,0 +1,200 @@
+.stats-section {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* ✅ étend sur toute la largeur */
+
+  /* ✅ Barre supérieure parfaitement équilibrée */
+  .header-top {
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* bouton - titre - espace */
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  /* ✅ Centre le titre horizontalement */
+  .header-center {
+    text-align: center;
+    justify-self: center;
+    width: 100%;
+  }
+
+  /* ✅ Espace vide à droite pour équilibrer avec le bouton */
+  .header-spacer {
+    width: 160px;
+    height: 1px;
+  }
+
+  /* ✅ Bouton retour aligné à gauche */
+  .btn-back {
+    justify-self: start;
+    background: #ecf0f1;
+    border: none;
+    color: #2c3e50;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+
+    &:hover {
+      background: #3498db;
+      color: #fff;
+      transform: translateX(-3px);
+    }
+  }
+
+  .page-title {
+    color: #2c3e50;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    text-align: center;
+  }
+
+  /* ✅ Responsive mobile */
+  @media (max-width: 768px) {
+    .header-top {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+      text-align: center;
+    }
+
+    .header-spacer {
+      display: none;
+    }
+
+    .btn-back {
+      justify-self: center;
+    }
+
+    .page-title {
+      font-size: 1.6rem;
+    }
+  }
+}
+
+
+  /* === TABLEAU ET CARTES === */
+  .summary {
+      margin: 1rem auto;
+    max-width: 700px;
+    width: 100%;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    padding: 1.2rem;
+    text-align: center;
+
+    h3 {
+      color: #34495e;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+
+      th,
+      td {
+        padding: 0.7rem 1rem;
+        border-bottom: 1px solid #eee;
+      }
+
+      th {
+        background-color: #f4f6f8;
+        color: #2c3e50;
+        text-align: center;
+      }
+
+      td.score {
+        color: #27ae60;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .top-section {
+    margin-top: 1.5rem;
+    text-align: center;
+    width: 100%;
+
+    h3 {
+      font-size: 1.4rem;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .top-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      justify-items: center;
+      padding: 0 1rem;
+    }
+
+    .top-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      width: 230px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease-in-out;
+      text-align: center;
+      opacity: 0;
+      animation: fadeInUp 0.5s forwards;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+      }
+
+      .rank {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .gold { color: #f1c40f; }
+      .silver { color: #95a5a6; }
+      .bronze { color: #d35400; }
+
+      h4 {
+        color: #34495e;
+        font-weight: 600;
+        margin-bottom: 0.4rem;
+      }
+
+      p {
+        color: #7f8c8d;
+        margin: 0.25rem 0;
+        font-size: 0.9rem;
+      }
+
+      .score {
+        margin-top: 0.4rem;
+        font-weight: bold;
+        color: #27ae60;
+        background: #ecf9f0;
+        border-radius: 5px;
+        padding: 0.3rem 0.6rem;
+        display: inline-block;
+      }
+    }
+  }
+
+  @keyframes fadeInUp {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+

@@ -1,0 +1,63 @@
+<section class="potential-section">
+    <div class="header-top">
+        <button class="btn-back" routerLink="/employers">
+            ⬅ Retour à la Liste des Employeurs
+        </button>
+        
+        <div class="header-center">
+            <h2 class="page-title">
+                🧠 Analyse Sémantique des Employeurs
+            </h2>
+            <p class="subtitle">
+                Résultats de l'inférence automatique sur les employeurs selon leur score d'employabilité.
+            </p>
+        </div>
+        <div class="header-spacer"></div>
+    </div>
+
+
+  <div *ngIf="loading" class="loader">
+    <div class="spinner"></div>
+    <p>Chargement des résultats...</p>
+  </div>
+
+  <div *ngIf="!loading" class="potential-container">
+    <!-- Groupe Haut Potentiel -->
+    <div class="potential-card high">
+      <h3>🏆 Employeurs à haut potentiel</h3>
+      <div *ngIf="highPotential.length === 0" class="empty">Aucun employeur trouvé.</div>
+
+      <ul *ngIf="highPotential.length > 0">
+        <li *ngFor="let e of highPotential">
+          <div class="employer-item">
+            <span class="name">{{ e.companyName || '—' }}</span>
+            <span class="score">💼 {{ e.employabilityScore?.toFixed(1) }}</span>
+            <span class="email">📧 {{ e.email || '—' }}</span>
+            <span class="type" [class.company]="e.type === 'Company'" [class.individual]="e.type === 'Individual'">
+              {{ e.type || 'Employeur' }}
+            </span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Groupe Faible Potentiel -->
+    <div class="potential-card low">
+      <h3>⚠️ Employeurs à faible potentiel</h3>
+      <div *ngIf="lowPotential.length === 0" class="empty">Aucun employeur trouvé.</div>
+
+      <ul *ngIf="lowPotential.length > 0">
+        <li *ngFor="let e of lowPotential">
+          <div class="employer-item">
+            <span class="name">{{ e.companyName || '—' }}</span>
+            <span class="score">💼 {{ e.employabilityScore?.toFixed(1) }}</span>
+            <span class="email">📧 {{ e.email || '—' }}</span>
+            <span class="type" [class.company]="e.type === 'Company'" [class.individual]="e.type === 'Individual'">
+              {{ e.type || 'Employeur' }}
+            </span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

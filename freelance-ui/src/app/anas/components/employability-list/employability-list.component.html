@@ -1,0 +1,26 @@
+<section class="list-section">
+  <h2>📊 Liste des Employabilités</h2>
+
+  <div *ngIf="loading" class="loader">Chargement...</div>
+
+  <table *ngIf="!loading && data.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Type</th>
+        <th>Score</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let e of data">
+        <td>{{ e.id }}</td>
+        <td>{{ e.kind }}</td>
+        <td>{{ e.employabilityScore }}</td>
+        <td><button (click)="remove(e.id)">🗑 Supprimer</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!loading && data.length === 0">Aucune employabilité enregistrée.</p>
+</section>
