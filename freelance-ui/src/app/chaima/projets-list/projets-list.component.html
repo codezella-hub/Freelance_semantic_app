@@ -1,0 +1,67 @@
+<div class="container">
+  <h2>📂 Gestion des Projets</h2>
+
+  <button (click)="toggleForm()" class="btn-primary">
+    {{ showForm ? 'Fermer' : '➕ Nouveau Projet' }}
+  </button>
+
+  <!-- ✅ Formulaire -->
+  <div *ngIf="showForm" class="form-card">
+    <h3>Ajouter un Projet</h3>
+
+    <label>Titre du projet</label>
+    <input [(ngModel)]="newProjet.projectTitle" placeholder="Titre" />
+
+    <label>Résumé</label>
+    <textarea [(ngModel)]="newProjet.projectSummary"></textarea>
+
+    <label>Type</label>
+    <select [(ngModel)]="newProjet.type">
+      <option value="OngoingProject">En cours</option>
+      <option value="CompletedProject">Terminé</option>
+    </select>
+
+    <label>Date de livraison</label>
+    <input type="datetime-local" [(ngModel)]="newProjet.deliveryDate" />
+
+    <label>Évaluations associées</label>
+    <select [(ngModel)]="newProjet.evaluations" multiple>
+      <option *ngFor="let e of evaluations" [value]="e.id">
+        {{ e.comment }} ({{ e.type }})
+      </option>
+    </select>
+
+    <div class="form-actions">
+      <button (click)="createProjet()" class="btn-success">💾 Enregistrer</button>
+      <button (click)="toggleForm()" class="btn-cancel">❌ Annuler</button>
+    </div>
+  </div>
+
+  <!-- ✅ Liste des projets -->
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Titre</th>
+        <th>Résumé</th>
+        <th>Type</th>
+        <th>Date</th>
+        <th>Évaluations</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of projets">
+        <td>{{ p.projectTitle }}</td>
+        <td>{{ p.projectSummary }}</td>
+        <td>{{ p.type }}</td>
+        <td>{{ p.deliveryDate | date: 'short' }}</td>
+        <td>
+          <span *ngFor="let evalId of p.evaluations">{{ evalId }}<br /></span>
+        </td>
+        <td>
+          <button (click)="deleteProjet(p.id!)" class="btn-danger">🗑 Supprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
