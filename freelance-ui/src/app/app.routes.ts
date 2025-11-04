@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import {HomeComponent} from './component/home/home.component';
 import {UserLayoutComponent} from './layouts/user-layout/user-layout.component';
+import { MissionsComponent } from './components/missions/missions.component';
+import { ApplicationsComponent } from './components/applications/applications.component';
 import {EventListComponent} from './component/event-list/event-list.component';
 import {EventFormComponent} from './component/event-form/event-form.component';
 import {EventDetailComponent} from './component/event-detail/event-detail.component';
@@ -15,6 +17,8 @@ export const routes: Routes = [
     component: UserLayoutComponent,
     children: [
       { path: '', component: HomeComponent },
+      { path: 'missions', component: MissionsComponent },
+      { path: 'applications', component: ApplicationsComponent }
       { path: 'search', component: NlpSearchComponent },
       { path: 'events', component: EventListComponent },
       { path: 'events/new', component: EventFormComponent },

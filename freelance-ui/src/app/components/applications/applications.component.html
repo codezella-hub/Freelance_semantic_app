@@ -1,0 +1,58 @@
+<div class="actions">
+  <button (click)="startAdd()">Ajouter candidature</button>
+  <select #st>
+    <option value="">-- Statut --</option>
+    <option value="PENDING">PENDING</option>
+    <option value="ACCEPTED">ACCEPTED</option>
+    <option value="REJECTED">REJECTED</option>
+  </select>
+  <input #m placeholder="Mission URI" />
+  <button (click)="onSearch(st.value, m.value)">Rechercher</button>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="form-grid">
+  <label>
+    <span>Statut</span>
+    <select formControlName="status">
+      <option value="">-- Choisir --</option>
+      <option value="PENDING">PENDING</option>
+      <option value="ACCEPTED">ACCEPTED</option>
+      <option value="REJECTED">REJECTED</option>
+    </select>
+  </label>
+  <label>
+    <span>Date (ISO)</span>
+    <input formControlName="date" placeholder="2025-11-04T10:00:00" />
+  </label>
+  <label>
+    <span>Mission URI</span>
+    <input formControlName="missionUri" placeholder="http://...#Mission-123" />
+  </label>
+  <label>
+    <span>Freelancer URI</span>
+    <input formControlName="applicantUri" placeholder="http://...#Freelancer-1" />
+  </label>
+  <button type="submit">{{ editingId ? 'Mettre à jour' : 'Créer' }}</button>
+</form>
+
+<table>
+  <thead>
+  <tr>
+    <th>Statut</th><th>Date</th><th>Mission</th><th>Freelancer</th><th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let a of applications">
+    <td>{{ a.status }}</td>
+    <td>{{ a.date }}</td>
+    <td>{{ a.missionUri }}</td>
+    <td>{{ a.applicantUri }}</td>
+    <td>
+      <button (click)="startEdit(a)">Modifier</button>
+      <button (click)="remove(a)">Supprimer</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+

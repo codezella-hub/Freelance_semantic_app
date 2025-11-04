@@ -1,0 +1,8 @@
+table { width: 100%; border-collapse: collapse; }
+th, td { border: 1px solid #ddd; padding: 8px; }
+.actions { margin: 12px 0; }
+.form-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; align-items: end; }
+label { display: flex; flex-direction: column; gap: 6px; }
+input, select, button { padding: 6px 8px; }
+
+
