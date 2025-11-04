@@ -1,8 +1,6 @@
 package tn.esprit.freelance.config;
 
-import org.apache.jena.query.Dataset;
 import org.apache.jena.rdfconnection.RDFConnection;
-import org.apache.jena.rdfconnection.RDFConnectionFactory;
 import org.apache.jena.rdfconnection.RDFConnectionRemote;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

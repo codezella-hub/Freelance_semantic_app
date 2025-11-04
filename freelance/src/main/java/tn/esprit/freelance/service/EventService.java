@@ -7,10 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.freelance.dto.EventDTO;
-import tn.esprit.freelance.model.Event;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +20,6 @@ public class EventService {
 
     private static final Logger logger = LoggerFactory.getLogger(EventService.class);
     private static final String NAMESPACE = "http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#";
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_DATE_TIME;
 
     @Autowired
     private RDFService rdfService;

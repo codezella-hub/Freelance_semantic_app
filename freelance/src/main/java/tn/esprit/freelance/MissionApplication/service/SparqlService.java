@@ -1,10 +1,7 @@
 package tn.esprit.freelance.MissionApplication.service;
 
-import org.apache.jena.query.*;
-import org.apache.jena.update.UpdateExecutionFactory;
-import org.apache.jena.update.UpdateFactory;
-import org.apache.jena.update.UpdateProcessor;
-import org.springframework.beans.factory.annotation.Value;
+import org.apache.jena.rdfconnection.RDFConnection;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.freelance.MissionApplication.dto.ApplicationDto;
 import tn.esprit.freelance.MissionApplication.dto.Mission;
@@ -15,11 +12,8 @@ import java.util.List;
 @Service
 public class SparqlService {
 
-    @Value("${fuseki.queryEndpoint}")
-    private String queryEndpoint;
-
-    @Value("${fuseki.updateEndpoint}")
-    private String updateEndpoint;
+    @Autowired
+    private RDFConnection rdfConnection;
 
     private static final String PREFIXES = String.join("\n",
             "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>",
@@ -39,18 +33,14 @@ public class SparqlService {
                 "}";
 
         List<Mission> result = new ArrayList<>();
-        try (QueryExecution qexec = QueryExecutionFactory.sparqlService(queryEndpoint, select)) {
-            ResultSet rs = qexec.execSelect();
-            while (rs.hasNext()) {
-                QuerySolution qs = rs.next();
-                String uri = qs.getResource("m").getURI();
-                String titre = qs.contains("titre") ? qs.get("titre").asLiteral().getString() : null;
-                String desc = qs.contains("desc") ? qs.get("desc").asLiteral().getString() : null;
-                Double budget = qs.contains("budget") ? qs.getLiteral("budget").getDouble() : null;
-                String status = qs.contains("status") ? qs.getLiteral("status").getString() : null;
-                result.add(new Mission(uri, titre, desc, budget, status));
-            }
-        }
+        rdfConnection.querySelect(select, (qs) -> {
+            String uri = qs.getResource("m").getURI();
+            String titre = qs.contains("titre") ? qs.get("titre").asLiteral().getString() : null;
+            String desc = qs.contains("desc") ? qs.get("desc").asLiteral().getString() : null;
+            Double budget = qs.contains("budget") ? qs.getLiteral("budget").getDouble() : null;
+            String status = qs.contains("status") ? qs.getLiteral("status").getString() : null;
+            result.add(new Mission(uri, titre, desc, budget, status));
+        });
         return result;
     }
 
@@ -124,18 +114,14 @@ public class SparqlService {
         sb.append("}\n");
 
         List<Mission> result = new ArrayList<>();
-        try (QueryExecution qexec = QueryExecutionFactory.sparqlService(queryEndpoint, sb.toString())) {
-            ResultSet rs = qexec.execSelect();
-            while (rs.hasNext()) {
-                QuerySolution qs = rs.next();
-                String uri = qs.getResource("m").getURI();
-                String titre = qs.contains("titre") ? qs.getLiteral("titre").getString() : null;
-                String desc = qs.contains("desc") ? qs.getLiteral("desc").getString() : null;
-                Double b = qs.contains("budget") ? qs.getLiteral("budget").getDouble() : null;
-                String s = qs.contains("status") ? qs.getLiteral("status").getString() : null;
-                result.add(new Mission(uri, titre, desc, b, s));
-            }
-        }
+        rdfConnection.querySelect(sb.toString(), (qs) -> {
+            String uri = qs.getResource("m").getURI();
+            String titre = qs.contains("titre") ? qs.getLiteral("titre").getString() : null;
+            String desc = qs.contains("desc") ? qs.getLiteral("desc").getString() : null;
+            Double b = qs.contains("budget") ? qs.getLiteral("budget").getDouble() : null;
+            String s = qs.contains("status") ? qs.getLiteral("status").getString() : null;
+            result.add(new Mission(uri, titre, desc, b, s));
+        });
         return result;
     }
 
@@ -151,18 +137,14 @@ public class SparqlService {
                 "}";
 
         List<ApplicationDto> result = new ArrayList<>();
-        try (QueryExecution qexec = QueryExecutionFactory.sparqlService(queryEndpoint, select)) {
-            ResultSet rs = qexec.execSelect();
-            while (rs.hasNext()) {
-                QuerySolution qs = rs.next();
-                String uri = qs.getResource("a").getURI();
-                String status = qs.contains("status") ? qs.getLiteral("status").getString() : null;
-                String date = qs.contains("date") ? qs.getLiteral("date").getString() : null;
-                String mission = qs.contains("mission") ? qs.getResource("mission").getURI() : null;
-                String applicant = qs.contains("applicant") ? qs.getResource("applicant").getURI() : null;
-                result.add(new ApplicationDto(uri, status, date, mission, applicant));
-            }
-        }
+        rdfConnection.querySelect(select, (qs) -> {
+            String uri = qs.getResource("a").getURI();
+            String status = qs.contains("status") ? qs.getLiteral("status").getString() : null;
+            String date = qs.contains("date") ? qs.getLiteral("date").getString() : null;
+            String mission = qs.contains("mission") ? qs.getResource("mission").getURI() : null;
+            String applicant = qs.contains("applicant") ? qs.getResource("applicant").getURI() : null;
+            result.add(new ApplicationDto(uri, status, date, mission, applicant));
+        });
         return result;
     }
 
@@ -184,18 +166,14 @@ public class SparqlService {
         sb.append("}\n");
 
         List<ApplicationDto> result = new ArrayList<>();
-        try (QueryExecution qexec = QueryExecutionFactory.sparqlService(queryEndpoint, sb.toString())) {
-            ResultSet rs = qexec.execSelect();
-            while (rs.hasNext()) {
-                QuerySolution qs = rs.next();
-                String uri = qs.getResource("a").getURI();
-                String s = qs.contains("status") ? qs.getLiteral("status").getString() : null;
-                String date = qs.contains("date") ? qs.getLiteral("date").getString() : null;
-                String mission = qs.contains("mission") ? qs.getResource("mission").getURI() : null;
-                String applicant = qs.contains("applicant") ? qs.getResource("applicant").getURI() : null;
-                result.add(new ApplicationDto(uri, s, date, mission, applicant));
-            }
-        }
+        rdfConnection.querySelect(sb.toString(), (qs) -> {
+            String uri = qs.getResource("a").getURI();
+            String s = qs.contains("status") ? qs.getLiteral("status").getString() : null;
+            String date = qs.contains("date") ? qs.getLiteral("date").getString() : null;
+            String mission = qs.contains("mission") ? qs.getResource("mission").getURI() : null;
+            String applicant = qs.contains("applicant") ? qs.getResource("applicant").getURI() : null;
+            result.add(new ApplicationDto(uri, s, date, mission, applicant));
+        });
         return result;
     }
 
@@ -204,14 +182,32 @@ public class SparqlService {
         if (appUri == null || appUri.isBlank()) {
             appUri = "http://example.com/freelance#Application-" + java.util.UUID.randomUUID();
         }
+        
+        // Build properties list
+        StringBuilder props = new StringBuilder();
+        if (a.getStatus() != null) {
+            props.append("  onto:status \"").append(escape(a.getStatus())).append("\" ;\n");
+        }
+        if (a.getDate() != null) {
+            props.append("  onto:applicationDate \"").append(escape(a.getDate())).append("\" ;\n");
+        }
+        if (a.getMissionUri() != null) {
+            props.append("  onto:appliedTo <").append(a.getMissionUri()).append("> ;\n");
+        }
+        if (a.getApplicantUri() != null) {
+            props.append("  onto:submittedBy <").append(a.getApplicantUri()).append("> ;\n");
+        }
+        
+        // Replace last semicolon with period
+        String propsStr = props.toString();
+        if (!propsStr.isEmpty()) {
+            propsStr = propsStr.substring(0, propsStr.lastIndexOf(" ;\n")) + " .\n";
+        }
+        
         String update = PREFIXES + "\n" +
                 "INSERT DATA {\n" +
-                "  <" + appUri + "> rdf:type onto:Application ;\n" +
-                (a.getStatus() != null ? "  onto:status \"" + escape(a.getStatus()) + "\" ;\n" : "") +
-                (a.getDate() != null ? "  onto:applicationDate \"" + escape(a.getDate()) + "\" ;\n" : "") +
-                (a.getMissionUri() != null ? "  onto:appliedTo <" + a.getMissionUri() + "> ;\n" : "") +
-                (a.getApplicantUri() != null ? "  onto:submittedBy <" + a.getApplicantUri() + "> ;\n" : "") +
-                "  .\n" +
+                "  <" + appUri + "> rdf:type onto:Application" +
+                (propsStr.isEmpty() ? " .\n" : " ;\n" + propsStr) +
                 "}";
         runUpdate(update);
         a.setId(appUri);
@@ -247,9 +243,10 @@ public class SparqlService {
     }
 
     private void runUpdate(String updateString) {
-        UpdateProcessor processor = UpdateExecutionFactory.createRemote(
-                UpdateFactory.create(updateString), updateEndpoint);
-        processor.execute();
+        // Log the SPARQL query for debugging (remove in production if needed)
+        System.out.println("Executing SPARQL Update:");
+        System.out.println(updateString);
+        rdfConnection.update(updateString);
     }
 
     private String escape(String value) {
