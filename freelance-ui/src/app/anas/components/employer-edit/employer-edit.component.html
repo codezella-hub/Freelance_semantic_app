@@ -1,0 +1,74 @@
+<section class="form-section">
+  <div class="form-card">
+    <h2>✏️ Modifier un Employeur</h2>
+
+    <form (ngSubmit)="onSubmit()" #form="ngForm">
+      <!-- Type -->
+      <div class="form-group">
+        <label>Type d'employeur</label>
+        <select [(ngModel)]="employer.type" name="type" required>
+          <option value="Company">Company</option>
+          <option value="Individual">Individuel</option>
+        </select>
+      </div>
+
+      <!-- Company name -->
+      <div class="form-group">
+        <label>Nom de l'entreprise</label>
+        <input
+          type="text"
+          [(ngModel)]="employer.companyName"
+          name="companyName"
+          required
+          placeholder="Ex : TechVision"
+        />
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label>Email</label>
+        <input
+          type="email"
+          [(ngModel)]="employer.email"
+          name="email"
+          required
+          placeholder="contact@exemple.com"
+        />
+      </div>
+
+      <!-- Phone -->
+      <div class="form-group">
+        <label>Téléphone</label>
+        <input
+          type="text"
+          [(ngModel)]="employer.phoneNumber"
+          name="phoneNumber"
+          required
+          placeholder="Ex : 20223344"
+        />
+      </div>
+
+      <!-- Employability ID -->
+      <div class="form-group">
+        <label>ID Employability</label>
+        <select [(ngModel)]="employer.employabilityId" name="employabilityId" required>
+          <option value="">Sélectionner un ID Employability</option>
+          <option *ngFor="let e of employabilities" [value]="e.id">
+            {{ e.id }} — Score : {{ e.employabilityScore }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Messages -->
+      <div class="message success" *ngIf="successMsg">{{ successMsg }}</div>
+      <div class="message error" *ngIf="errorMsg">{{ errorMsg }}</div>
+
+      <!-- Submit -->
+      <button class="btn-primary" [disabled]="loading || !form.valid">
+        {{ loading ? 'Mise à jour...' : 'Mettre à jour' }}
+      </button>
+    </form>
+
+    <button class="btn-secondary" routerLink="/employers">⬅ Retour à la liste</button>
+  </div>
+</section>

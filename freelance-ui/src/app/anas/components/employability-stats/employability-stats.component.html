@@ -1,0 +1,63 @@
+<section class="stats-section">
+  <div class="header-top">
+    <button class="btn-back" routerLink="/employers">
+      ⬅ Retour à la Liste des Employeurs
+    </button>
+
+    <div class="header-center">
+      <h2 class="page-title">📊 Statistiques d’Employabilité</h2>
+    </div>
+
+    <div class="header-spacer"></div>
+  </div>
+
+  <!-- === LOADER === -->
+  <div *ngIf="loading" class="loader">
+    <div class="spinner"></div>
+    <p>Chargement des données...</p>
+  </div>
+
+  <!-- === GRAPH + TABLE === -->
+  <div *ngIf="!loading && data.length > 0">
+    <div class="summary">
+      <h3>📈 Moyenne par Type d’Employeur</h3>
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Score Moyen</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of data">
+            <td>{{ item.type }}</td>
+            <td class="score">{{ item.avgScore | number: '1.1-2' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- === TOP EMPLOYEURS === -->
+  <div class="top-section" *ngIf="topEmployers.length > 0">
+    <h3>🏆 Top 5 Employeurs les mieux notés</h3>
+
+    <div class="top-grid">
+      <div class="top-card" *ngFor="let emp of topEmployers; let i = index">
+        <div class="rank" [class.gold]="i==0" [class.silver]="i==1" [class.bronze]="i==2">
+          #{{ i + 1 }}
+        </div>
+        <h4>{{ emp.companyName }}</h4>
+        <p>📧 {{ emp.email || '—' }}</p>
+        <p>📞 {{ emp.phoneNumber || '—' }}</p>
+        <div class="score">
+          ⭐ {{ emp.employabilityScore | number:'1.1-2' }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && data.length === 0" class="empty">
+    <p>Aucune donnée disponible.</p>
+  </div>
+</section>

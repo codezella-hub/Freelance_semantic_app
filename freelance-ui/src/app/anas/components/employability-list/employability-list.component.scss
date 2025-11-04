@@ -1,0 +1,50 @@
+.list-section {
+  padding: 30px;
+  h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+    }
+
+    th {
+      background: #0078ff;
+      color: white;
+    }
+
+    tr:hover {
+      background: #f5faff;
+    }
+
+    button {
+      background: #b00020;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+
+      &:hover {
+        background: #900018;
+      }
+    }
+  }
+
+  .loader {
+    text-align: center;
+    color: #555;
+  }
+}
