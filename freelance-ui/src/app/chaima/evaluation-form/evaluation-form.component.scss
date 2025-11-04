@@ -1,0 +1,53 @@
+.form-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #f4f4f4;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    text-align: center;
+    color: #0077b6;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+    label {
+      display: block;
+      font-weight: 600;
+    }
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+  }
+
+  button {
+    background: #0077b6;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #023e8a;
+  }
+
+  .message {
+    text-align: center;
+    margin-top: 1rem;
+    font-weight: 600;
+  }
+
+  .back {
+    background: gray;
+    margin-top: 1rem;
+  }
+}

@@ -10,7 +10,7 @@ import java.util.*;
 @Service
 public class NaturalLanguageQueryService {
 
-    private static final String FUSEKI_URL = "http://localhost:3030/employer_db";
+    private static final String FUSEKI_URL = "http://localhost:3030/Projet-evaluation";
     private static final String NAMESPACE = "http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#";
 
     /**

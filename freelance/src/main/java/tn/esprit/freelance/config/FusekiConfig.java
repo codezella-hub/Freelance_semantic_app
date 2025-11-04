@@ -12,16 +12,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FusekiConfig {
 
-    @Value("${fuseki.endpoint}")
+    @Value("${fuseki.endpoint2}")
     private String fusekiEndpoint;
 
-    @Value("${fuseki.update.endpoint}")
+    @Value("${fuseki.update.endpoint2}")
     private String fusekiUpdateEndpoint;
 
-    @Value("${fuseki.data.endpoint}")
+    @Value("${fuseki.data.endpoint2}")
     private String fusekiDataEndpoint;
 
-    @Value("${fuseki.query.endpoint}")
+    @Value("${fuseki.query.endpoint2}")
     private String fusekiQueryEndpoint;
 
     /**

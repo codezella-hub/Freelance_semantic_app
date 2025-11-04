@@ -1,16 +1,15 @@
 import { Routes } from '@angular/router';
-import {HomeComponent} from './component/home/home.component';
-import {UserLayoutComponent} from './layouts/user-layout/user-layout.component';
+
 import { MissionsComponent } from './components/missions/missions.component';
 import { ApplicationsComponent } from './components/applications/applications.component';
 import { MissionsFrontComponent } from './components/missions-front/missions-front.component';
-import {EventListComponent} from './component/event-list/event-list.component';
-import {EventFormComponent} from './component/event-form/event-form.component';
-import {EventDetailComponent} from './component/event-detail/event-detail.component';
-import {CertificationListComponent} from './component/certification-list/certification-list.component';
-import {CertificationFormComponent} from './component/certification-form/certification-form.component';
-import {CertificationDetailComponent} from './component/certification-detail/certification-detail.component';
-import {NlpSearchComponent} from './component/nlp-search/nlp-search.component';
+import { EventListComponent } from './component/event-list/event-list.component';
+import { EventFormComponent } from './component/event-form/event-form.component';
+import { EventDetailComponent } from './component/event-detail/event-detail.component';
+import { CertificationListComponent } from './component/certification-list/certification-list.component';
+import { CertificationFormComponent } from './component/certification-form/certification-form.component';
+import { CertificationDetailComponent } from './component/certification-detail/certification-detail.component';
+import { NlpSearchComponent } from './component/nlp-search/nlp-search.component';
 import { EmployerListComponent } from './anas/components/employer-list/employer-list.component';
 import { EmployabilityListComponent } from './anas/components/employability-list/employability-list.component';
 
@@ -20,7 +19,12 @@ import { EmployabilityStatsComponent } from './anas/components/employability-sta
 import { EmployerPotentialListComponent } from './anas/components/employer-potential-list/employer-potential-list.component';
 import { EmployerEditComponent } from './anas/components/employer-edit/employer-edit.component';
 
-
+import { HomeComponent } from './component/home/home.component';
+import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
+import { EvaluationListComponent } from './chaima/evaluation-list/evaluation-list.component';
+import { EvaluationFormComponent } from './chaima/evaluation-form/evaluation-form.component';
+import { ProjetsListComponent } from './chaima/projets-list/projets-list.component';
+import { ProjetDashboardComponent } from './chaima/projet-dashboard/projet-dashboard.component';
 
 export const routes: Routes = [
   {
@@ -39,17 +43,31 @@ export const routes: Routes = [
       { path: 'events/edit/:uri', component: EventFormComponent },
       { path: 'certifications', component: CertificationListComponent },
       { path: 'certifications/new', component: CertificationFormComponent },
-      { path: 'certifications/view/:uri', component: CertificationDetailComponent },
-      { path: 'certifications/edit/:uri', component: CertificationFormComponent },
+      {
+        path: 'certifications/view/:uri',
+        component: CertificationDetailComponent,
+      },
+      {
+        path: 'certifications/edit/:uri',
+        component: CertificationFormComponent,
+      },
 
       { path: 'employer-form', component: EmployerFormComponent },
       { path: 'employers', component: EmployerListComponent },
       { path: 'employability', component: EmployabilityListComponent },
       { path: 'employability/stats', component: EmployabilityStatsComponent },
       { path: 'employability/add', component: EmployabilityFormComponent },
-      { path: 'employers/potential', component: EmployerPotentialListComponent },
-      { path: 'employers/edit/:id', component: EmployerEditComponent }
+      {
+        path: 'employers/potential',
+        component: EmployerPotentialListComponent,
+      },
+      { path: 'employers/edit/:id', component: EmployerEditComponent },
 
-    ]
+      { path: 'evaluations', component: EvaluationListComponent },
+      { path: 'evaluations/new', component: EvaluationFormComponent },
+      // Ajoutez d'autres routes ici pour les pages utilisateur
+      { path: 'projets', component: ProjetsListComponent },
+      { path: 'projets-dashboard', component: ProjetDashboardComponent },
+    ],
   },
 ];

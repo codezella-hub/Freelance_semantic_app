@@ -1,0 +1,54 @@
+<div class="container">
+  <h2>📊 Liste des Évaluations</h2>
+  <div class="actions">
+    <button routerLink="/evaluations/new" class="add">
+      ➕ Nouvelle évaluation
+    </button>
+  </div>
+
+  <div class="controls">
+    <input
+      [(ngModel)]="searchKeyword"
+      placeholder="Rechercher un commentaire ou type..."
+    />
+    <button (click)="search()">🔍 Rechercher</button>
+
+    <select [(ngModel)]="sortBy">
+      <option value="score">Score</option>
+      <option value="date">Date</option>
+      <option value="type">Type</option>
+    </select>
+
+    <select [(ngModel)]="sortOrder">
+      <option value="asc">Croissant</option>
+      <option value="desc">Décroissant</option>
+    </select>
+
+    <button (click)="sort()">↕️ Trier</button>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Type</th>
+        <th>Score</th>
+        <th>Commentaire</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let e of evaluations">
+        <td>{{ e.id }}</td>
+        <td>{{ e.type }}</td>
+        <td>{{ e.score }}</td>
+        <td>{{ e.comment }}</td>
+        <td>{{ e.evaluationDate | date : "short" }}</td>
+        <td>
+          <button (click)="delete(e.id!)" class="delete">🗑 Supprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   imports: [RouterModule, CommonModule],
   templateUrl: './header.component.html',
   standalone: true,
-  styleUrl: './header.component.scss'
+  styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
   isDropdownOpen = false;

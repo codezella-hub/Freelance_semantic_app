@@ -10,8 +10,25 @@ public class SemanticConfig {
     @Value("${fuseki.endpoint1}")
     private String endpoint;
 
-    // Base URI de ton ontologie (vu dans le RDF)
+
+    @Value("${fuseki.query-endpoint}")
+    private String queryEndpoint;
+
+    @Value("${fuseki.update-endpoint}")
+    private String updateEndpoint;
+
     private static final String BASE = "http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#";
+
+
+    @Bean
+    public String sparqlQueryEndpoint() { return queryEndpoint; }
+
+    @Bean
+    public String sparqlUpdateEndpoint() { return updateEndpoint; }
+
+
+
+    // Base URI de ton ontologie (vu dans le RDF)
 
     @Bean
     public String sparqlEndpoint() { return endpoint; }
