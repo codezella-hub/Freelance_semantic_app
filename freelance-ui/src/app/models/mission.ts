@@ -1,9 +1,9 @@
 export interface Mission {
-  id: string;
-  titre: string;
-  description: string;
+  id: string | null;
+  titre: string | null;
+  description: string | null;
   budget: number | null;
-  statut: string;
+  statut: string | null;
 }
 
 

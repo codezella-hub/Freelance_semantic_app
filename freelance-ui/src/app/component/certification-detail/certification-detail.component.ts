@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CertificationService, Certification } from '../../services/certification.service';
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 
 @Component({
   selector: 'app-certification-detail',

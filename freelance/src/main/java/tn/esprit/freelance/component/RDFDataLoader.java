@@ -99,6 +99,7 @@ public class RDFDataLoader implements CommandLineRunner {
      * Load RDF data from classpath resource
      * @param resourcePath The classpath resource path
      */
+    @SuppressWarnings("unused")
     private void loadRdfFromClasspath(String resourcePath) {
         try {
             logger.info("Loading RDF data from classpath: {}", resourcePath);

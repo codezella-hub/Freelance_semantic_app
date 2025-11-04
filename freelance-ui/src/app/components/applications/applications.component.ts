@@ -40,6 +40,7 @@ export class ApplicationsComponent {
   }
 
   startEdit(a: ApplicationDto) {
+    if (!a.id) return;
     this.editingId = a.id;
     this.form.reset({
       id: a.id,
@@ -67,6 +68,7 @@ export class ApplicationsComponent {
   }
 
   remove(a: ApplicationDto) {
+    if (!a.id) return;
     this.service.delete(a.id).subscribe(() => this.reload());
   }
 }

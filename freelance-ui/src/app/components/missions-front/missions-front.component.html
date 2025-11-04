@@ -1,0 +1,180 @@
+<div class="missions-front-container">
+  <!-- Hero Header -->
+  <div class="hero-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="icon-wrapper">
+          <i class="fas fa-briefcase"></i>
+        </div>
+        <div>
+          <h1 class="page-title">Missions Disponibles</h1>
+          <p class="page-subtitle">Découvrez les opportunités de freelance qui correspondent à vos compétences</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-4">
+    <!-- Search and Filters Box -->
+    <div class="search-box">
+      <div class="search-input-wrapper">
+        <i class="fas fa-search search-icon"></i>
+        <input
+          type="text"
+          class="search-input"
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearch()"
+          placeholder="Rechercher une mission (titre, description)..."
+          [disabled]="loading">
+        <button 
+          *ngIf="searchQuery" 
+          class="btn-clear-input" 
+          (click)="searchQuery=''; onSearch()"
+          [disabled]="loading">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <button 
+        class="btn-submit" 
+        (click)="onSearch()"
+        [disabled]="loading">
+        <i class="fas fa-search"></i>
+        <span>Rechercher</span>
+      </button>
+    </div>
+
+    <!-- Filters Row -->
+    <div class="filters-row">
+      <div class="filter-group">
+        <label>
+          <i class="fas fa-filter"></i>
+          Statut
+        </label>
+        <select [(ngModel)]="statusFilter" (change)="loadMissions()" class="filter-select">
+          <option value="">Tous les statuts</option>
+          <option value="OPEN">Ouvert</option>
+          <option value="IN_PROGRESS">En cours</option>
+          <option value="CLOSED">Fermé</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label>
+          <i class="fas fa-euro-sign"></i>
+          Budget min
+        </label>
+        <input 
+          type="number" 
+          [(ngModel)]="budgetMin" 
+          (change)="applyFilters()"
+          placeholder="Min"
+          class="filter-input">
+      </div>
+      
+      <div class="filter-group">
+        <label>
+          <i class="fas fa-euro-sign"></i>
+          Budget max
+        </label>
+        <input 
+          type="number" 
+          [(ngModel)]="budgetMax" 
+          (change)="applyFilters()"
+          placeholder="Max"
+          class="filter-input">
+      </div>
+      
+      <button class="btn-clear-filters" (click)="clearFilters()">
+        <i class="fas fa-redo"></i>
+        Réinitialiser
+      </button>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div *ngIf="loading" class="loading-container">
+      <div class="spinner-custom">
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring"></div>
+      </div>
+      <p class="loading-text">Chargement des missions...</p>
+    </div>
+
+    <!-- Error Alert -->
+    <div *ngIf="error && !loading" class="alert-custom alert-danger">
+      <i class="fas fa-exclamation-triangle"></i>
+      <span>{{ error }}</span>
+      <button class="btn-close-alert" (click)="error=null">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Results Section -->
+    <div *ngIf="!loading && filteredMissions.length > 0" class="results-section">
+      <!-- Results Header -->
+      <div class="results-header">
+        <div class="results-info">
+          <i class="fas fa-briefcase"></i>
+          <h3>{{ filteredMissions.length }} mission(s) trouvée(s)</h3>
+        </div>
+      </div>
+
+      <!-- Missions Grid -->
+      <div class="missions-grid">
+        <div class="mission-card" *ngFor="let mission of filteredMissions">
+          <div class="mission-card-header" [class]="getStatusBadgeClass(mission.statut)">
+            <span class="mission-status-badge" [class]="getStatusBadgeClass(mission.statut)">
+              <i class="fas fa-circle"></i>
+              {{ mission.statut || 'Non spécifié' }}
+            </span>
+            <span *ngIf="mission.budget" class="mission-budget">
+              <i class="fas fa-euro-sign"></i>
+              {{ formatBudget(mission.budget) }}
+            </span>
+          </div>
+
+          <div class="mission-card-body">
+            <h3 class="mission-title">{{ mission.titre || 'Sans titre' }}</h3>
+            <p class="mission-description">{{ mission.description || 'Aucune description disponible' }}</p>
+
+            <div class="mission-meta">
+              <div class="meta-item" *ngIf="mission.budget">
+                <i class="fas fa-euro-sign"></i>
+                <span>Budget: {{ formatBudget(mission.budget) }}</span>
+              </div>
+              <div class="meta-item" *ngIf="mission.statut">
+                <i class="fas fa-info-circle"></i>
+                <span>Statut: {{ mission.statut }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mission-card-footer">
+            <button 
+              class="btn-action btn-apply" 
+              (click)="applyToMission(mission)"
+              [disabled]="applyingToMissionId === mission.id || mission.statut === 'CLOSED'">
+              <i class="fas fa-paper-plane" *ngIf="applyingToMissionId !== mission.id"></i>
+              <i class="fas fa-spinner fa-spin" *ngIf="applyingToMissionId === mission.id"></i>
+              <span>{{ applyingToMissionId === mission.id ? 'Envoi...' : 'Postuler' }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && filteredMissions.length === 0 && !error" class="empty-state">
+      <div class="empty-icon">
+        <i class="fas fa-briefcase"></i>
+      </div>
+      <h3 class="empty-title">Aucune mission trouvée</h3>
+      <p class="empty-text">Essayez de modifier vos critères de recherche ou vos filtres</p>
+      <button class="btn-new-search" (click)="clearFilters()">
+        <i class="fas fa-redo"></i>
+        Réinitialiser les filtres
+      </button>
+    </div>
+  </div>
+</div>
+

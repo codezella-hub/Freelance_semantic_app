@@ -42,6 +42,7 @@ export class MissionsComponent {
   }
 
   startEdit(m: Mission) {
+    if (!m.id) return;
     this.editingId = m.id;
     this.form.reset({
       id: m.id,
@@ -69,6 +70,7 @@ export class MissionsComponent {
   }
 
   remove(m: Mission) {
+    if (!m.id) return;
     this.service.delete(m.id).subscribe(() => this.reload());
   }
 }
