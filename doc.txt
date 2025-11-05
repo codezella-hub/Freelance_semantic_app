@@ -1,0 +1,14 @@
+// run fuseki 
+fuseki-server.bat
+http://localhost:3030
+//run ollama 
+ollama stop
+ollama serve
+
+
+//
+
+netstat -aon | findstr 11434
+taskkill /PID 2584 /F
+
+ollama serve --port 11435

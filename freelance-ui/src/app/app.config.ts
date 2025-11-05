@@ -4,6 +4,8 @@ import { provideRouter } from '@angular/router';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 
 import { provideAnimations } from '@angular/platform-browser/animations';
+
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -13,5 +15,8 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()), // ✅ Active HttpClient pour tous les services
 
     provideAnimations(), // (optionnel, utile si tu utilises Angular Material plus tard)
-  ],
+  
+
+    provideCharts(withDefaultRegisterables())
+  ]
 };

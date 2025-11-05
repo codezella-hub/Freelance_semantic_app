@@ -1,0 +1,88 @@
+<div class="container section">
+  <div class="search-hero">
+    <h1 class="section-title">Recherche Intelligente</h1>
+    <p class="section-subtitle">Trouvez le freelancer parfait avec notre IA</p>
+
+    <div class="search-container">
+      <div class="search-box">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text"
+               [(ngModel)]="searchQuery"
+               (keyup.enter)="search()"
+               placeholder="Ex: développeur JavaScript, expert React, fullstack Java Spring..."
+               class="search-input">
+        <button (click)="search()"
+                [disabled]="loading || !searchQuery.trim()"
+                class="search-btn btn-primary">
+          <i class="fas" [class.fa-search]="!loading" [class.fa-spinner]="loading"></i>
+          {{ loading ? 'Recherche...' : 'Rechercher' }}
+        </button>
+      </div>
+
+      <div class="search-examples">
+        <p>💡 Exemples de recherche :</p>
+        <div class="example-tags">
+          <span (click)="searchQuery = 'développeur js'; search()">développeur js</span>
+          <span (click)="searchQuery = 'expert spring boot'; search()">expert spring boot</span>
+          <span (click)="searchQuery = 'fullstack react node'; search()">fullstack react node</span>
+          <span (click)="searchQuery = 'développeur python django'; search()">développeur python django</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results Section -->
+  <div *ngIf="searched" class="results-section">
+    <div class="results-header">
+      <h2>Résultats de la recherche</h2>
+      <div class="results-meta">
+        <span class="results-count">{{ searchResults.length }} freelancer(s) trouvé(s)</span>
+        <button (click)="clearSearch()" class="btn-secondary">
+          <i class="fas fa-times"></i> Effacer
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Recherche en cours...</p>
+    </div>
+
+    <!-- No Results -->
+    <div *ngIf="!loading && searchResults.length === 0" class="no-results">
+      <i class="fas fa-search"></i>
+      <h3>Aucun résultat trouvé</h3>
+      <p>Essayez avec d'autres termes de recherche</p>
+    </div>
+
+    <!-- Results Grid -->
+    <div *ngIf="!loading && searchResults.length > 0" class="results-grid">
+      <div *ngFor="let freelancer of searchResults" class="result-card">
+        <div class="result-header">
+          <div class="freelancer-avatar">
+            {{ freelancer.name.charAt(0).toUpperCase() }}
+          </div>
+          <div class="freelancer-info">
+            <h3 class="freelancer-name">{{ freelancer.name }}</h3>
+            <span class="experience-level"
+                  [style.background-color]="getExperienceColor(freelancer.experienceLevel)">
+              {{ freelancer.experienceLevel }}
+            </span>
+          </div>
+        </div>
+
+        <div class="matching-skills">
+          <h4>Compétences correspondantes :</h4>
+          <div class="skills-list">
+            <span *ngFor="let skill of freelancer.skills"
+                  class="skill-tag matching">
+              {{ skill.name }}
+              <small class="skill-level">({{ skill.level }})</small>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
