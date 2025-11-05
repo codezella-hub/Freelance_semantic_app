@@ -1,58 +1,101 @@
-<div class="actions">
-  <button (click)="startAdd()">Ajouter mission</button>
-  <input #q placeholder="Rechercher (titre/description)" />
-  <select #s>
-    <option value="">-- Statut --</option>
-    <option value="OPEN">OPEN</option>
-    <option value="CLOSED">CLOSED</option>
-    <option value="IN_PROGRESS">IN_PROGRESS</option>
-  </select>
-  <button (click)="onSearch(q.value, s.value)">Rechercher</button>
+<div class="hero-header">
+  <div class="container">
+    <div class="header-content">
+      <div class="icon-wrapper"><i class="fas fa-briefcase"></i></div>
+      <div>
+        <h1 class="page-title">Gestion des Missions</h1>
+        <p class="page-subtitle">Créez, recherchez et gérez vos missions</p>
+      </div>
+    </div>
+  </div>
 </div>
 
-<form [formGroup]="form" (ngSubmit)="submit()" class="form-grid">
-  <label>
-    <span>Titre</span>
-    <input formControlName="titre" placeholder="Titre" />
-  </label>
-  <label>
-    <span>Description</span>
-    <input formControlName="description" placeholder="Description" />
-  </label>
-  <label>
-    <span>Budget</span>
-    <input type="number" formControlName="budget" placeholder="Budget" />
-  </label>
-  <label>
-    <span>Statut</span>
-    <select formControlName="statut">
-      <option value="">-- Choisir --</option>
-      <option value="OPEN">OPEN</option>
-      <option value="IN_PROGRESS">IN_PROGRESS</option>
-      <option value="CLOSED">CLOSED</option>
-    </select>
-  </label>
-  <button type="submit">{{ editingId ? 'Mettre à jour' : 'Créer' }}</button>
-</form>
+<div class="container">
+  <div class="toolbar">
+    <button class="btn btn-primary" (click)="startAdd()">
+      <i class="fas fa-plus"></i>
+      <span>Ajouter une mission</span>
+    </button>
 
-<table>
-  <thead>
-  <tr>
-    <th>Titre</th><th>Description</th><th>Budget</th><th>Statut</th><th>Actions</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let m of missions">
-    <td>{{ m.titre }}</td>
-    <td>{{ m.description }}</td>
-    <td>{{ m.budget }}</td>
-    <td>{{ m.statut }}</td>
-    <td>
-      <button (click)="startEdit(m)">Modifier</button>
-      <button (click)="remove(m)">Supprimer</button>
-    </td>
-  </tr>
-  </tbody>
-  </table>
+    <div class="search-group">
+      <i class="fas fa-search"></i>
+      <input #q class="input" placeholder="Rechercher (titre/description)" (keyup.enter)="onSearch(q.value, s.value)" />
+      <select #s class="select">
+        <option value="">Tous les statuts</option>
+        <option value="OPEN">OPEN</option>
+        <option value="IN_PROGRESS">IN_PROGRESS</option>
+        <option value="CLOSED">CLOSED</option>
+      </select>
+      <button class="btn" (click)="onSearch(q.value, s.value)"><i class="fas fa-search"></i><span>Rechercher</span></button>
+    </div>
+  </div>
 
+  <form [formGroup]="form" (ngSubmit)="submit()" class="card form-card">
+    <div class="grid">
+      <div class="field">
+        <label>Titre</label>
+        <input class="input" formControlName="titre" placeholder="Titre de la mission" />
+      </div>
+      <div class="field">
+        <label>Description</label>
+        <input class="input" formControlName="description" placeholder="Brève description" />
+      </div>
+      <div class="field">
+        <label>Budget</label>
+        <input class="input" type="number" formControlName="budget" placeholder="Ex: 1200" />
+      </div>
+      <div class="field">
+        <label>Statut</label>
+        <select class="select" formControlName="statut">
+          <option value="">-- Choisir --</option>
+          <option value="OPEN">OPEN</option>
+          <option value="IN_PROGRESS">IN_PROGRESS</option>
+          <option value="CLOSED">CLOSED</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">
+        <i class="fas" [ngClass]="editingId ? 'fa-save' : 'fa-plus-circle'"></i>
+        <span>{{ editingId ? 'Mettre à jour' : 'Créer' }}</span>
+      </button>
+    </div>
+  </form>
 
+  <div class="card list-card">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Titre</th>
+            <th>Description</th>
+            <th>Budget</th>
+            <th>Statut</th>
+            <th class="actions-col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let m of missions">
+            <td class="cell-strong">{{ m.titre || '—' }}</td>
+            <td>{{ m.description || '—' }}</td>
+            <td>
+              <span class="badge badge-info" *ngIf="m.budget !== null; else noBudget">{{ m.budget }}</span>
+              <ng-template #noBudget>—</ng-template>
+            </td>
+            <td>
+              <span class="badge" [ngClass]="{
+                'badge-success': m.statut === 'OPEN',
+                'badge-warning': m.statut === 'IN_PROGRESS',
+                'badge-dark': m.statut === 'CLOSED'
+              }">{{ m.statut || '—' }}</span>
+            </td>
+            <td class="row-actions">
+              <button class="btn btn-small" (click)="startEdit(m)"><i class="fas fa-edit"></i><span>Modifier</span></button>
+              <button class="btn btn-danger btn-small" (click)="remove(m)"><i class="fas fa-trash"></i><span>Supprimer</span></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

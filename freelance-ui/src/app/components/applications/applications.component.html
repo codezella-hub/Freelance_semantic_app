@@ -1,58 +1,100 @@
-<div class="actions">
-  <button (click)="startAdd()">Ajouter candidature</button>
-  <select #st>
-    <option value="">-- Statut --</option>
-    <option value="PENDING">PENDING</option>
-    <option value="ACCEPTED">ACCEPTED</option>
-    <option value="REJECTED">REJECTED</option>
-  </select>
-  <input #m placeholder="Mission URI" />
-  <button (click)="onSearch(st.value, m.value)">Rechercher</button>
+<div class="hero-header">
+  <div class="container">
+    <div class="header-content">
+      <div class="icon-wrapper"><i class="fas fa-paper-plane"></i></div>
+      <div>
+        <h1 class="page-title">Gestion des Candidatures</h1>
+        <p class="page-subtitle">Créez, recherchez et gérez les candidatures</p>
+      </div>
+    </div>
+  </div>
 </div>
 
-<form [formGroup]="form" (ngSubmit)="submit()" class="form-grid">
-  <label>
-    <span>Statut</span>
-    <select formControlName="status">
-      <option value="">-- Choisir --</option>
-      <option value="PENDING">PENDING</option>
-      <option value="ACCEPTED">ACCEPTED</option>
-      <option value="REJECTED">REJECTED</option>
-    </select>
-  </label>
-  <label>
-    <span>Date (ISO)</span>
-    <input formControlName="date" placeholder="2025-11-04T10:00:00" />
-  </label>
-  <label>
-    <span>Mission URI</span>
-    <input formControlName="missionUri" placeholder="http://...#Mission-123" />
-  </label>
-  <label>
-    <span>Freelancer URI</span>
-    <input formControlName="applicantUri" placeholder="http://...#Freelancer-1" />
-  </label>
-  <button type="submit">{{ editingId ? 'Mettre à jour' : 'Créer' }}</button>
-</form>
+<div class="container">
+  <div class="toolbar">
+    <button class="btn btn-primary" (click)="startAdd()">
+      <i class="fas fa-plus"></i>
+      <span>Ajouter une candidature</span>
+    </button>
 
-<table>
-  <thead>
-  <tr>
-    <th>Statut</th><th>Date</th><th>Mission</th><th>Freelancer</th><th>Actions</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let a of applications">
-    <td>{{ a.status }}</td>
-    <td>{{ a.date }}</td>
-    <td>{{ a.missionUri }}</td>
-    <td>{{ a.applicantUri }}</td>
-    <td>
-      <button (click)="startEdit(a)">Modifier</button>
-      <button (click)="remove(a)">Supprimer</button>
-    </td>
-  </tr>
-  </tbody>
-</table>
+    <div class="search-group">
+      <i class="fas fa-search"></i>
+      <select #st class="select">
+        <option value="">Tous les statuts</option>
+        <option value="PENDING">PENDING</option>
+        <option value="ACCEPTED">ACCEPTED</option>
+        <option value="REJECTED">REJECTED</option>
+      </select>
+      <input #m class="input" placeholder="Mission URI" (keyup.enter)="onSearch(st.value, m.value)" />
+      <button class="btn" (click)="onSearch(st.value, m.value)"><i class="fas fa-search"></i><span>Rechercher</span></button>
+    </div>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="card form-card">
+    <div class="grid">
+      <div class="field">
+        <label>Statut</label>
+        <select class="select" formControlName="status">
+          <option value="">-- Choisir --</option>
+          <option value="PENDING">PENDING</option>
+          <option value="ACCEPTED">ACCEPTED</option>
+          <option value="REJECTED">REJECTED</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Date</label>
+        <input class="input" formControlName="date" placeholder="YYYY-MM-DD" />
+      </div>
+      <div class="field">
+        <label>Mission URI</label>
+        <input class="input" formControlName="missionUri" placeholder="http://...#Mission-123" />
+      </div>
+      <div class="field">
+        <label>Freelancer URI</label>
+        <input class="input" formControlName="applicantUri" placeholder="http://...#Freelancer-1" />
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">
+        <i class="fas" [ngClass]="editingId ? 'fa-save' : 'fa-plus-circle'"></i>
+        <span>{{ editingId ? 'Mettre à jour' : 'Créer' }}</span>
+      </button>
+    </div>
+  </form>
+
+  <div class="card list-card">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Statut</th>
+            <th>Date</th>
+            <th>Mission</th>
+            <th>Freelancer</th>
+            <th class="actions-col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let a of applications">
+            <td>
+              <span class="badge" [ngClass]="{
+                'badge-warning': a.status === 'PENDING',
+                'badge-success': a.status === 'ACCEPTED',
+                'badge-dark': a.status === 'REJECTED'
+              }">{{ a.status || '—' }}</span>
+            </td>
+            <td>{{ a.date || '—' }}</td>
+            <td class="cell-strong">{{ a.missionUri || '—' }}</td>
+            <td>{{ a.applicantUri || '—' }}</td>
+            <td class="row-actions">
+              <button class="btn btn-small" (click)="startEdit(a)"><i class="fas fa-edit"></i><span>Modifier</span></button>
+              <button class="btn btn-danger btn-small" (click)="remove(a)"><i class="fas fa-trash"></i><span>Supprimer</span></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
 
