@@ -1,0 +1,27 @@
+<div class="add-contract">
+  <h2 *ngIf="!editingId">Create Contract</h2>
+  <h2 *ngIf="editingId">Edit Contract</h2>
+  <form (ngSubmit)="submit()" #form="ngForm">
+    <label>Title</label>
+    <input name="title" [(ngModel)]="model.title" required />
+
+    <label>Description</label>
+    <textarea name="description" [(ngModel)]="model.description"></textarea>
+
+    <label>Start date</label>
+    <input type="date" name="startDate" [(ngModel)]="model.startDate" />
+
+    <label>End date</label>
+    <input type="date" name="endDate" [(ngModel)]="model.endDate" />
+
+    <label>Amount</label>
+    <input type="number" name="amount" [(ngModel)]="model.amount" required />
+
+    <label>Status</label>
+    <select name="status" [(ngModel)]="model.status">
+      <option *ngFor="let s of statuses" [value]="s">{{s}}</option>
+    </select>
+
+    <button type="submit" [disabled]="!form.form.valid">{{ editingId ? 'Update' : 'Create' }}</button>
+  </form>
+</div>

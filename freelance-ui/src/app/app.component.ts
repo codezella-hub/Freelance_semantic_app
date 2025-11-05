@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {FooterComponent} from './component/footer/footer.component';
-import {HeaderComponent} from './component/header/header.component';
+import { RdfApiService } from './services/rdf-api.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, HttpClientModule], 
+  providers: [RdfApiService],
   templateUrl: './app.component.html',
   standalone: true,
   styleUrl: './app.component.scss'

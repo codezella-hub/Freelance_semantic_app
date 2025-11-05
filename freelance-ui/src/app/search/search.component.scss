@@ -1,0 +1,7 @@
+.search-container { padding: 1.5rem }
+.search-form { display:flex; gap: .5rem; align-items:center }
+.search-form input, .search-form select { padding: .5rem }
+.results .cards { display:grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap:1rem; margin-top:1rem }
+.card { background:#fff; padding:1rem; border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,.08) }
+.card-title { font-weight:600; margin-bottom:.5rem }
+.error { color: #b00020 }

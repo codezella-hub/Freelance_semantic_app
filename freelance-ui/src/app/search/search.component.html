@@ -1,0 +1,31 @@
+<div class="search-container">
+  <h2>Recherche sémantique</h2>
+  <form (ngSubmit)="run()" #f="ngForm" class="search-form">
+    <input name="q" [(ngModel)]="titleQuery" placeholder="Texte de recherche (titre)" />
+    <input type="number" name="minAmount" [(ngModel)]="minAmount" placeholder="Montant min" />
+    <select name="status" [(ngModel)]="status">
+      <option *ngFor="let s of statuses" [value]="s">{{ s || 'Any' }}</option>
+    </select>
+    <button type="submit" [disabled]="loading">Search</button>
+    <button type="button" (click)="clear()">Clear</button>
+  </form>
+
+  <div *ngIf="loading">Searching...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div class="results" *ngIf="results?.length">
+    <h3>Results ({{ results.length }})</h3>
+    <div class="cards">
+      <div class="card" *ngFor="let r of results">
+        <div class="card-title">{{ r.title || r.contract }}</div>
+        <div class="card-body">
+          <div>Amount: {{ r.amount }}</div>
+          <div>Status: {{ r.status }}</div>
+          <div>Payments: {{ r.paymentCount }} / Total paid: {{ r.totalPaid }}</div>
+          <div *ngIf="r.contract">URI: {{ r.contract }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!results?.length && !loading">No results</div>
+</div>
