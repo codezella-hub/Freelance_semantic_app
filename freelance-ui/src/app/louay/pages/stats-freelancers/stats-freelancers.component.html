@@ -1,0 +1,176 @@
+<div class="container section">
+  <div class="stats-header">
+    <h1 class="section-title">
+      <i class="fas fa-chart-bar"></i>
+      Statistiques des Freelancers
+    </h1>
+    <p class="section-subtitle">Analyses et tendances de votre base de freelancers</p>
+  </div>
+
+  <!-- Indicateur de chargement -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner">
+      <i class="fas fa-spinner fa-spin"></i>
+      <p>Chargement des statistiques...</p>
+    </div>
+  </div>
+
+  <!-- Contenu des statistiques -->
+  <div *ngIf="!loading && stats" class="stats-container">
+    <!-- Cartes de statistiques générales -->
+    <div class="stats-cards">
+      <div class="stat-card">
+        <div class="stat-icon total">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-info">
+          <h3 class="stat-value">{{ stats.totalFreelancers || 0 }}</h3>
+          <p class="stat-label">Total Freelancers</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon average">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="stat-info">
+          <h3 class="stat-value">{{ (stats.averageSkillsPerFreelancer || 0) | number:'1.1-1' }}</h3>
+          <p class="stat-label">Compétences moyennes</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon levels">
+          <i class="fas fa-layer-group"></i>
+        </div>
+        <div class="stat-info">
+          <h3 class="stat-value">{{ getExperienceLevels().length }}</h3>
+          <p class="stat-label">Niveaux d'expérience</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon skills">
+          <i class="fas fa-code"></i>
+        </div>
+        <div class="stat-info">
+          <h3 class="stat-value">{{ getTopSkills().length }}</h3>
+          <p class="stat-label">Compétences uniques</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grille des graphiques -->
+    <div class="charts-grid">
+      <!-- Niveaux d'expérience -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3><i class="fas fa-user-graduate"></i> Répartition par niveau d'expérience</h3>
+        </div>
+        <div class="chart-container">
+          <canvas baseChart
+                  [data]="experienceLevelChart"
+                  [options]="pieChartOptions"
+                  type="pie">
+          </canvas>
+        </div>
+      </div>
+
+      <!-- Compétences les plus populaires -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3><i class="fas fa-star"></i> Compétences les plus demandées</h3>
+        </div>
+        <div class="chart-container">
+          <canvas baseChart
+                  [data]="skillChart"
+                  [options]="barChartOptions"
+                  type="bar">
+          </canvas>
+        </div>
+      </div>
+
+      <!-- Niveaux de compétences -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3><i class="fas fa-chart-pie"></i> Niveaux de compétences</h3>
+        </div>
+        <div class="chart-container">
+          <canvas baseChart
+                  [data]="skillLevelChart"
+                  [options]="doughnutChartOptions"
+                  type="doughnut">
+          </canvas>
+        </div>
+      </div>
+
+      <!-- Répartition par nombre de compétences -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3><i class="fas fa-chart-bar"></i> Compétences par freelancer</h3>
+        </div>
+        <div class="chart-container">
+          <canvas baseChart
+                  [data]="skillsPerFreelancerChart"
+                  [options]="barChartOptions"
+                  type="bar">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Détails des statistiques -->
+    <div class="stats-details">
+      <div class="details-grid">
+        <div class="details-card">
+          <h4><i class="fas fa-list-ol"></i> Détails par niveau d'expérience</h4>
+          <div class="details-list">
+            <div *ngFor="let level of getExperienceLevels()" class="detail-item">
+              <span class="detail-label">{{ level.level }}</span>
+              <span class="detail-value">{{ level.count }} freelancers</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="details-card">
+          <h4><i class="fas fa-trophy"></i> Top compétences</h4>
+          <div class="details-list">
+            <div *ngFor="let skill of getTopSkills(8)" class="detail-item">
+              <span class="detail-label">{{ skill.name }}</span>
+              <span class="detail-value">{{ skill.count }} freelancers</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="stats-actions">
+      <button type="button"
+              class="btn btn-secondary"
+              [routerLink]="['/freelance/list']">
+        <i class="fas fa-arrow-left"></i> Retour à la liste
+      </button>
+
+      <button type="button"
+              class="btn btn-primary"
+              (click)="refreshStats()"
+              [disabled]="loading">
+        <i class="fas" [class.fa-sync-alt]="!loading" [class.fa-spinner]="loading" [class.fa-spin]="loading"></i>
+        {{ loading ? 'Actualisation...' : 'Actualiser' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Message d'erreur -->
+  <div *ngIf="!loading && !stats" class="error-container">
+    <div class="error-message">
+      <i class="fas fa-exclamation-triangle"></i>
+      <h3>Erreur de chargement</h3>
+      <p>Impossible de charger les statistiques. Veuillez réessayer.</p>
+      <button type="button" class="btn btn-primary" (click)="loadStats()">
+        <i class="fas fa-redo"></i> Réessayer
+      </button>
+    </div>
+  </div>
+</div>

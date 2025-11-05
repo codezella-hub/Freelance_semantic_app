@@ -1,0 +1,86 @@
+<div class="container section">
+  <div class="section-header">
+    <h1 class="section-title">Nos Freelancers</h1>
+    <p class="section-subtitle">Découvrez nos talents experts</p>
+  </div>
+
+  <div class="action-bar">
+    <a routerLink="/freelance/add" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Ajouter un Freelancer
+    </a>
+    <div class="action-buttons">
+      <a routerLink="/freelance/search" class="btn btn-secondary">
+        <i class="fas fa-search"></i> Recherche Avancée
+      </a>
+      <a routerLink="/freelance/stats" class="btn btn-secondary">
+        <i class="fas fa-chart-bar"></i> Statistiques
+      </a>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Chargement des freelancers...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="error-state">
+    <i class="fas fa-exclamation-triangle"></i>
+    <p>{{ error }}</p>
+    <button (click)="loadFreelancers()" class="btn btn-primary">Réessayer</button>
+  </div>
+
+  <!-- Freelancers Grid -->
+  <div *ngIf="!loading && !error" class="freelancers-grid">
+    <div *ngFor="let freelancer of freelancers" class="freelancer-card">
+      <div class="freelancer-header">
+        <div class="freelancer-avatar">
+          {{ freelancer.name.charAt(0).toUpperCase() }}
+        </div>
+        <div class="freelancer-basic-info">
+          <h3 class="freelancer-name">{{ freelancer.name }}</h3>
+          <span class="experience-level"
+                [style.background-color]="getExperienceColor(freelancer.experienceLevel)">
+            {{ freelancer.experienceLevel }}
+          </span>
+        </div>
+      </div>
+
+      <div class="freelancer-skills">
+        <h4>Compétences</h4>
+        <div class="skills-list">
+          <span *ngFor="let skill of freelancer.skills"
+                class="skill-tag">
+            {{ skill.name }}
+            <small class="skill-level">({{ skill.level }})</small>
+          </span>
+          <span *ngIf="freelancer.skills.length === 0" class="no-skills">
+            Aucune compétence
+          </span>
+        </div>
+      </div>
+
+      <div class="freelancer-actions">
+        <a [routerLink]="['/freelance/update', freelancer.id]"
+           class="btn-action btn-edit">
+          <i class="fas fa-edit"></i> Modifier
+        </a>
+        <button (click)="deleteFreelancer(freelancer.id)"
+                class="btn-action btn-delete">
+          <i class="fas fa-trash"></i> Supprimer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && !error && freelancers.length === 0" class="empty-state">
+    <i class="fas fa-users"></i>
+    <h3>Aucun freelancer trouvé</h3>
+    <p>Commencez par ajouter votre premier freelancer</p>
+    <a routerLink="/freelance/add" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Ajouter un Freelancer
+    </a>
+  </div>
+</div>
