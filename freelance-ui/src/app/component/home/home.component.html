@@ -5,12 +5,28 @@
       <h1>Trouvez le freelance parfait pour votre projet</h1>
       <p>Connectez-vous avec des talents du monde entier pour réaliser vos projets plus rapidement.</p>
       <div class="search-bar">
-        <input type="text" placeholder="Rechercher un service, une compétence...">
-        <button>Rechercher</button>
+        <!-- <input type="text" placeholder="Rechercher un service, une compétence...">
+        <button>Rechercher</button> -->
+      <div class="search-bar">
+  <input [(ngModel)]="searchTerm" placeholder="Search payments..." />
+  <button (click)="search()">Search</button>
+</div>
+
+<div *ngIf="results.length > 0" class="search-results">
+  <div *ngFor="let payment of results" class="payment-card">
+    <h3>Payment ID: {{ payment.payment.value | slice:payment.payment.value.lastIndexOf('#')+1 }}</h3>
+    <p><strong>Amount:</strong> {{ payment.amount.value }} €</p>
+    <p><strong>Date:</strong> {{ payment.date.value | date:'medium' }}</p>
+    <p><strong>Status:</strong> {{ payment.status.value }}</p>
+  </div>
+</div>
+
+
       </div>
     </div>
   </div>
 </section>
+
 
 <!-- Categories Section -->
 <section class="section categories">

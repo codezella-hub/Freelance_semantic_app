@@ -5,35 +5,63 @@
       <a routerLink="/" class="logo">FreelancePro</a>
       <ul class="nav-links">
         <li><a routerLink="/">Accueil</a></li>
-        <li class="dropdown" (mouseenter)="isDropdownOpen = true" (mouseleave)="isDropdownOpen = false">
+
+        <li
+          class="dropdown"
+          (mouseenter)="isDropdownOpen = true"
+          (mouseleave)="isDropdownOpen = false"
+        >
           <a class="dropdown-toggle">
             📚 Ressources
             <span class="arrow" [class.open]="isDropdownOpen">▼</span>
           </a>
           <ul class="dropdown-menu" [class.show]="isDropdownOpen">
-            <li><a routerLink="/search" (click)="closeDropdown()">🔍 Recherche Intelligente</a></li>
-            <li><a routerLink="/events" (click)="closeDropdown()">📅 Événements</a></li>
-            <li><a routerLink="/certifications" (click)="closeDropdown()">🎓 Certifications</a></li>
+            <li>
+              <a routerLink="/search" (click)="closeDropdown()"
+                >🔍 Recherche Intelligente</a
+              >
+            </li>
+            <li>
+              <a routerLink="/events" (click)="closeDropdown()"
+                >📅 Événements</a
+              >
+            </li>
+            <li>
+              <a routerLink="/certifications" (click)="closeDropdown()"
+                >🎓 Certifications</a
+              >
+            </li>
           </ul>
         </li>
+
         <li><a routerLink="/missionfront">Missions</a></li>
         <li><a href="#">Trouver des freelances</a></li>
         <li><a href="#">Devenir freelance</a></li>
-        <li><a routerLink="/employers" class="highlight">Liste des Employeurs</a></li>
-        <li><a href="#">Trouver des freelances</a></li>
-        <li><a href="#">Devenir freelance</a></li>
-        <li><a href="#">À propos</a></li>
         <li>
-          <a routerLink="/evaluations" routerLinkActive="active">
-            📝 Liste des évaluations
-          </a>
+          <a routerLink="/employers" class="highlight">Liste des Employeurs</a>
         </li>
-
+        <li>
+          <a routerLink="/evaluations" routerLinkActive="active"
+            >📝 Liste des évaluations</a
+          >
+        </li>
         <li><a routerLink="/projets">📁 Projets</a></li>
+        <li>
+          <a routerLink="/payments" routerLinkActive="active">💳 Paiements</a>
+        </li>
+        <li><a routerLink="/payments/add">➕ Ajouter un paiement</a></li>
+        <li>
+          <a routerLink="/contracts" routerLinkActive="active">📄 Contrats</a>
+        </li>
+        <li><a routerLink="/contracts/add">➕ Ajouter un contrat</a></li>
+        <li><a routerLink="/search">🔎 Recherche sémantique</a></li>
+        <li><a routerLink="/how-it-works">⚙️ Comment ça marche</a></li>
+        <li><a routerLink="/about">ℹ️ À propos</a></li>
       </ul>
+
       <div class="auth-buttons">
-        <a href="#" class="btn btn-secondary">Connexion</a>
-        <a href="#" class="btn btn-primary">Inscription</a>
+        <a routerLink="/login" class="btn btn-secondary">Connexion</a>
+        <a routerLink="/register" class="btn btn-primary">Inscription</a>
       </div>
     </nav>
   </div>

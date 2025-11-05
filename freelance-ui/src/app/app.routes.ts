@@ -19,8 +19,7 @@ import { EmployabilityStatsComponent } from './anas/components/employability-sta
 import { EmployerPotentialListComponent } from './anas/components/employer-potential-list/employer-potential-list.component';
 import { EmployerEditComponent } from './anas/components/employer-edit/employer-edit.component';
 
-import { HomeComponent } from './component/home/home.component';
-import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
+
 import { EvaluationListComponent } from './chaima/evaluation-list/evaluation-list.component';
 import { EvaluationFormComponent } from './chaima/evaluation-form/evaluation-form.component';
 import { ProjetsListComponent } from './chaima/projets-list/projets-list.component';
@@ -32,6 +31,13 @@ import {UpdateFreelancersComponent} from './louay/pages/update-freelancers/updat
 import {SearchFreelancersComponent} from './louay/pages/search-freelancers/search-freelancers.component';
 import {RecommendFreelancersComponent} from './louay/pages/recommend-freelancers/recommend-freelancers.component';
 import {StatsFreelancersComponent} from './louay/pages/stats-freelancers/stats-freelancers.component';
+import { HomeComponent } from './component/home/home.component';
+import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
+import { ContractsComponent } from './contracts/contracts.component';
+import { PaymentsComponent } from './payments/payments.component';
+import { AddContractComponent } from './add-contract/add-contract.component';
+import { AddPaymentComponent } from './add-payment/add-payment.component';
+import { SearchComponent } from './search/search.component';
 
 export const routes: Routes = [
   {
@@ -83,4 +89,14 @@ export const routes: Routes = [
       { path: 'projets-dashboard', component: ProjetDashboardComponent },
     ],
   },
+  { path: 'contracts', component: ContractsComponent },
+  { path: 'contracts/add', component: AddContractComponent },
+  { path: 'contracts/edit/:id', component: AddContractComponent },
+  { path: 'payments', component: PaymentsComponent },
+  { path: 'payments/add', component: AddPaymentComponent },
+  { path: 'payments/edit/:id', component: AddPaymentComponent },
+  { path: 'search', component: SearchComponent },
+      // add more routes here if needed
+    
+
 ];

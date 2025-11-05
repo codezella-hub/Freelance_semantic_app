@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
 <rdf:RDF xmlns="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8/"
-     xml:base="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8/"
-     xmlns:owl="http://www.w3.org/2002/07/owl#"
-     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:xml="http://www.w3.org/XML/1998/namespace"
-     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    xml:base="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8/"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:freelance="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#">
     <owl:Ontology rdf:about="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8"/>
     
 
@@ -764,9 +765,141 @@
     <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing">
         <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
     </rdf:Description>
+
+    <!-- Test Data: Contracts and Payments -->
+
+    <!-- Contract 1: Web Development Project -->
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#contract_1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#Contract"/>
+        <freelance:title>Web Development Project</freelance:title>
+        <freelance:description>Full-stack development of an e-commerce platform</freelance:description>
+        <freelance:startDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2025-01-01</freelance:startDate>
+        <freelance:endDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2025-03-31</freelance:endDate>
+        <freelance:amount rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">5000.00</freelance:amount>
+        <freelance:status>COMPLETED</freelance:status>
+    </owl:NamedIndividual>
+
+    <!-- Payments for Contract 1 -->
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#payment_1_1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#Payment"/>
+        <freelance:amount rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2500.00</freelance:amount>
+        <freelance:paymentDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-01-01T10:00:00</freelance:paymentDate>
+        <freelance:status>COMPLETED</freelance:status>
+        <freelance:paymentMethod>BANK_TRANSFER</freelance:paymentMethod>
+        <freelance:description>Initial payment for web development project</freelance:description>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#payment_1_2">
+        <rdf:type rdf:resource="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#Payment"/>
+        <freelance:amount rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2500.00</freelance:amount>
+        <freelance:paymentDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-03-31T15:30:00</freelance:paymentDate>
+        <freelance:status>COMPLETED</freelance:status>
+        <freelance:paymentMethod>BANK_TRANSFER</freelance:paymentMethod>
+        <freelance:description>Final payment for web development project</freelance:description>
+    </owl:NamedIndividual>
+
+    <!-- Contract 2: Mobile App Development -->
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#contract_2">
+        <rdf:type rdf:resource="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#Contract"/>
+        <freelance:title>Mobile App Development</freelance:title>
+        <freelance:description>iOS and Android app development for fitness tracking</freelance:description>
+        <freelance:startDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2025-02-15</freelance:startDate>
+        <freelance:endDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2025-06-15</freelance:endDate>
+        <freelance:amount rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">8000.00</freelance:amount>
+        <freelance:status>ACTIVE</freelance:status>
+    </owl:NamedIndividual>
+
+    <!-- Payments for Contract 2 -->
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#payment_2_1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#Payment"/>
+        <freelance:amount rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2000.00</freelance:amount>
+        <freelance:paymentDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-02-15T09:00:00</freelance:paymentDate>
+        <freelance:status>COMPLETED</freelance:status>
+        <freelance:paymentMethod>CREDIT_CARD</freelance:paymentMethod>
+        <freelance:description>Initial payment for mobile app</freelance:description>
+    </owl:NamedIndividual>
+
+    <!-- Contract 3: UI/UX Design Project -->
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#contract_3">
+        <rdf:type rdf:resource="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#Contract"/>
+        <freelance:title>UI/UX Design Project</freelance:title>
+        <freelance:description>Complete redesign of company website and mobile app</freelance:description>
+        <freelance:startDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2025-04-01</freelance:startDate>
+        <freelance:endDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2025-05-15</freelance:endDate>
+        <freelance:amount rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3500.00</freelance:amount>
+        <freelance:status>DRAFT</freelance:status>
+    </owl:NamedIndividual>
+
+    <!-- Contract 4: Blockchain Development -->
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#contract_4">
+        <rdf:type rdf:resource="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#Contract"/>
+        <title>Blockchain Development</title>
+        <description>Smart contract development and implementation</description>
+        <startDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2025-03-01</startDate>
+        <endDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2025-08-31</endDate>
+        <amount rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">12000.00</amount>
+        <status>ACTIVE</status>
+    </owl:NamedIndividual>
+
+    <!-- Payments for Contract 4 -->
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#payment_4_1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#Payment"/>
+        <freelance:amount rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">4000.00</freelance:amount>
+        <freelance:paymentDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-03-01T14:00:00</freelance:paymentDate>
+        <freelance:status>COMPLETED</freelance:status>
+        <freelance:paymentMethod>CRYPTO</freelance:paymentMethod>
+        <freelance:description>Initial payment for blockchain development</freelance:description>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#payment_4_2">
+        <rdf:type rdf:resource="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#Payment"/>
+        <freelance:amount rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">4000.00</freelance:amount>
+        <freelance:paymentDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-05-15T11:30:00</freelance:paymentDate>
+        <freelance:status>PENDING</freelance:status>
+        <freelance:paymentMethod>CRYPTO</freelance:paymentMethod>
+        <freelance:description>Second milestone payment for blockchain development</freelance:description>
+    </owl:NamedIndividual>
+
+    <!-- Contract 5: Data Analytics Project -->
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#contract_5">
+        <rdf:type rdf:resource="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#Contract"/>
+        <freelance:title>Data Analytics Project</freelance:title>
+        <freelance:description>Big data analysis and dashboard development</freelance:description>
+        <freelance:startDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2025-05-01</freelance:startDate>
+        <freelance:endDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2025-07-31</freelance:endDate>
+        <freelance:amount rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">6500.00</freelance:amount>
+        <freelance:status>ACTIVE</freelance:status>
+    </owl:NamedIndividual>
+
+    <!-- Payment for Contract 5 -->
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#payment_5_1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#Payment"/>
+        <freelance:amount rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2000.00</freelance:amount>
+        <freelance:paymentDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-05-01T16:45:00</freelance:paymentDate>
+        <freelance:status>COMPLETED</freelance:status>
+        <freelance:paymentMethod>PAYPAL</freelance:paymentMethod>
+        <freelance:description>Initial payment for data analytics project</freelance:description>
+    </owl:NamedIndividual>
+
+    <!-- Relationships -->
+    <rdf:Description rdf:about="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#contract_1">
+        <freelance:involvesPayment rdf:resource="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#payment_1_1"/>
+        <freelance:involvesPayment rdf:resource="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#payment_1_2"/>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#contract_2">
+        <freelance:involvesPayment rdf:resource="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#payment_2_1"/>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#contract_4">
+        <freelance:involvesPayment rdf:resource="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#payment_4_1"/>
+        <freelance:involvesPayment rdf:resource="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#payment_4_2"/>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#contract_5">
+        <freelance:involvesPayment rdf:resource="http://www.semanticweb.org/monpc/ontologies/2025/9/untitled-ontology-8#payment_5_1"/>
+    </rdf:Description>
+
 </rdf:RDF>
 
-
-
 <!-- Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi -->
-

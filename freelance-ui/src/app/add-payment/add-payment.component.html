@@ -1,0 +1,32 @@
+<div class="add-payment">
+  <h2 *ngIf="!editingId">Create Payment</h2>
+  <h2 *ngIf="editingId">Edit Payment</h2>
+  <form (ngSubmit)="submit()" #form="ngForm">
+    <label>Contract</label>
+    <select name="contractId" [(ngModel)]="model.contractId" required>
+      <option [ngValue]="null">-- select --</option>
+      <option *ngFor="let c of contracts" [value]="c.id">{{ c.title || c.name || ('Contract ' + c.id) }}</option>
+    </select>
+
+    <label>Amount</label>
+    <input type="number" name="amount" [(ngModel)]="model.amount" required />
+
+    <label>Payment date</label>
+    <input type="datetime-local" name="paymentDate" [(ngModel)]="model.paymentDate" />
+
+    <label>Status</label>
+    <select name="status" [(ngModel)]="model.status">
+      <option *ngFor="let s of statuses" [value]="s">{{s}}</option>
+    </select>
+
+    <label>Method</label>
+    <select name="paymentMethod" [(ngModel)]="model.paymentMethod">
+      <option *ngFor="let m of methods" [value]="m">{{m}}</option>
+    </select>
+
+    <label>Description</label>
+    <textarea name="description" [(ngModel)]="model.description"></textarea>
+
+    <button type="submit" [disabled]="!form.form.valid">{{ editingId ? 'Update' : 'Create' }}</button>
+  </form>
+</div>

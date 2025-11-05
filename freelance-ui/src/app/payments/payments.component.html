@@ -1,0 +1,22 @@
+<div class="payments-container">
+  <h2>Payments List</h2>
+  <div class="payments-grid">
+    <div class="payment-card" *ngFor="let payment of payments">
+      <div class="payment-header">
+        <span class="payment-status" [ngClass]="payment.status?.toLowerCase()">
+          {{ payment.status }}
+        </span>
+      </div>
+      <div class="payment-body">
+        <div class="payment-amount">{{ payment.amount }} €</div>
+        <div class="payment-date">{{ formatDate(payment.paymentDate) }}</div>
+        <div class="payment-id">ID: {{ payment.id }}</div>
+        <div class="payment-contract">Contract ID: {{ payment.contract?.id }}</div>
+        <div class="payment-actions">
+          <a [routerLink]="['/payments/edit', payment.id]" class="btn btn-small">Edit</a>
+          <button (click)="delete(payment.id)" class="btn btn-small btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
